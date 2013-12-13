@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TCUtil;
@@ -25,6 +26,11 @@ public class BlockStoneBrick extends BlockExtendedMetadata {
 		setResistance(10.0F);
 		setStepSound(Block.soundStoneFootstep);
 		setCreativeTab(TownCraft.creativeTab);
+	}
+	
+	@Override
+	public String getLocalizedName(ItemStack stack) {
+		return StatCollector.translateToLocal(getUnlocalizedName(stack));
 	}
 	
 	@Override

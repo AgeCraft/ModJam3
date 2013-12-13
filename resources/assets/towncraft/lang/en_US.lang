@@ -3,3 +3,14 @@ itemGroup.TownCraft=TownCraft
 tile.TC_stone.name=Stone
 tile.TC_stoneCracked.name=Cracked Stone
 tile.TC_stoneMossy.name=Mossy Stone
+tile.TC_stoneBrick.normal.name=Stone Brick
+tile.TC_stoneBrick.mossy.name=Mossy Stone Brick
+tile.TC_stoneBrick.cracked.name=Cracked Stone Brick
+tile.TC_stoneBrick.small.name=Small Stone Brick
+tile.TC_stoneBrick.circle.name=Circular Stone Brick
+tile.TC_stoneBrick.creeper.name=Stone Brick Creeper
+tile.TC_stoneBrick.chiseled.name=Chiseled Stone Brick 
+tile.TC_stoneBrick.pillar.name=Stone Brick Pillar
+
+tile.TC_slab.name=Slab
+tile.TC_stairs.name=Stairs

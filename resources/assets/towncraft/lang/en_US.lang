@@ -1,1 +1,5 @@
 itemGroup.TownCraft=TownCraft
+
+tile.TC_stone.name=Stone
+tile.TC_stoneCracked.name=Cracked Stone
+tile.TC_stoneMossy.name=Mossy Stone

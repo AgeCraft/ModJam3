@@ -7,8 +7,8 @@ import elcon.mods.towncraft.blocks.BlockMetadata;
 
 public class ItemBlockMetadata extends ItemBlockWithMetadata {
 
-	public ItemBlockMetadata(BlockMetadata block) {
-		super(block.blockID - 256, block);
+	public ItemBlockMetadata(int id, Block block) {
+		super(id, block);
 	}
 	
 	@Override

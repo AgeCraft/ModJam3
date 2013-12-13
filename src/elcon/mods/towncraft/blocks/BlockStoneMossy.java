@@ -12,11 +12,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStoneCracked extends BlockMetadata {
+public class BlockStoneMossy extends BlockMetadata {
 
 	private Icon[] icons = new Icon[16];
 	
-	public BlockStoneCracked(int id) {
+	public BlockStoneMossy(int id) {
 		super(id, Material.rock);
 		setHardness(2.0F);
 		setResistance(10.0F);
@@ -34,7 +34,7 @@ public class BlockStoneCracked extends BlockMetadata {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = iconRegister.registerIcon("towncraft:stoneCracked_" + Integer.toString(i));
+			icons[i] = iconRegister.registerIcon("towncraft:stoneMossy_" + Integer.toString(i));
 		}
 	}
 	

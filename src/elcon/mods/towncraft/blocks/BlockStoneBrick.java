@@ -18,7 +18,9 @@ public class BlockStoneBrick extends BlockExtendedMetadata {
 
 	public static final String[] types = new String[]{"normal", "cracked", "mossy", "small", "circle", "creeper", "chiseled", "pillar"};
 	
-	private Icon[][] icons = new Icon[8][16];
+	private Icon[] icons = new Icon[8];
+	private Icon overlayCracked;
+	private Icon overlayMossy;
 	
 	public BlockStoneBrick(int id) {
 		super(id, Material.rock);
@@ -41,7 +43,7 @@ public class BlockStoneBrick extends BlockExtendedMetadata {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return icons[meta & 7][(meta - (meta & 7)) / 8];
+		return icons[meta & 7];
 	}
 	
 	@Override
@@ -49,9 +51,11 @@ public class BlockStoneBrick extends BlockExtendedMetadata {
 	public void registerIcons(IconRegister iconRegister) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 16; j++) {
-				icons[i][j] = iconRegister.registerIcon("towncraft:stoneBrick" + TCUtil.firstUpperCase(types[i]) + "_" + Integer.toString(j));
+				icons[i] = iconRegister.registerIcon("towncraft:stoneBrick" + TCUtil.firstUpperCase(types[i]));
 			}
 		}
+		overlayCracked = iconRegister.registerIcon("towncraft:stoneBrickCracked");
+		overlayMossy = iconRegister.registerIcon("towncraft:stoneBrickMossy");
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ import elcon.mods.towncraft.TownCraft;
 
 public class BlockStoneCracked extends BlockMetadata {
 
-	private Icon[] icons = new Icon[16];
+	private Icon overlay;
 	
 	public BlockStoneCracked(int id) {
 		super(id, Material.rock);
@@ -27,15 +27,13 @@ public class BlockStoneCracked extends BlockMetadata {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return icons[meta];
+		return TownCraft.stone.getIcon(side, meta);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		for(int i = 0; i < icons.length; i++) {
-			icons[i] = iconRegister.registerIcon("towncraft:stoneCracked_" + Integer.toString(i));
-		}
+		overlay = iconRegister.registerIcon("towncraft:stoneCracked");
 	}
 	
 	@Override

@@ -13,8 +13,10 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import elcon.mods.towncraft.blocks.BlockStone;
+import elcon.mods.towncraft.blocks.BlockStoneBrick;
 import elcon.mods.towncraft.blocks.BlockStoneCracked;
 import elcon.mods.towncraft.blocks.BlockStoneMossy;
+import elcon.mods.towncraft.items.ItemBlockExtendedMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadata;
 import elcon.mods.towncraft.tileentities.TileEntityExtended;
 import elcon.mods.towncraft.tileentities.TileEntityMetadata;
@@ -68,7 +70,7 @@ public class TownCraft {
 		stoneMossy = new BlockStoneMossy(TCConfig.blockStoneMossyID).setUnlocalizedName("TC_stoneMossy");
 		//stoneMossySlab = new BlockStoneSlab(TCConfig.blockStoneMossySlabID).setUnlocalizedName("TC_stoneMossySlab");
 		//stoneMossyStairs = new BlockStoneStairs(TCConfig.blockStoneMossyStairsID).setUnlocalizedName("TC_stoneMossyStairs");
-		//stoneBrick = new BlockStoneBrick(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
+		stoneBrick = new BlockStoneBrick(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
 		//stoneBrickSlab = new BlockStoneSlab(TCConfig.blockStoneBrickSlabID).setUnlocalizedName("TC_stoneBrickSlab");
 		//stoneBrickStairs = new BlockStoneStairs(TCConfig.blockStoneBrickStairsID).setUnlocalizedName("TC_stoneBrickStairs");
 
@@ -82,7 +84,7 @@ public class TownCraft {
 		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadata.class, "TC_stoneMossy");
 		//GameRegistry.registerBlock(stoneMossySlab, ItemBlockExtendedMetadata.class, "TC_stoneMossySlab");
 		//GameRegistry.registerBlock(stoneMossyStairs, ItemBlockExtendedMetadata.class, "TC_stoneMossyStairs");
-		//GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
+		GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
 		//GameRegistry.registerBlock(stoneBrickSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickSlab");
 		//GameRegistry.registerBlock(stoneBrickStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickStairs");
 

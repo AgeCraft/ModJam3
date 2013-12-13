@@ -13,6 +13,7 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
 @SideOnly(Side.CLIENT)
 public class TCPacketHandlerClient implements IPacketHandler {
@@ -32,6 +33,22 @@ public class TCPacketHandlerClient implements IPacketHandler {
 		World world = Minecraft.getMinecraft().theWorld;
 		
 		switch(packetID) {
+		case 0:
+			handleTileEntityMetadata(world, dat);
+			break;
 		}
+	}
+
+	private void handleTileEntityMetadata(World world, ByteArrayDataInput dat) {
+		int x = dat.readInt();
+		int y = dat.readInt();
+		int z = dat.readInt();
+		TileEntityMetadata tile = (TileEntityMetadata) world.getBlockTileEntity(x, y, z);
+		if(tile == null) {
+			tile = new TileEntityMetadata();
+			world.setBlockTileEntity(x, y, z, tile);
+		}
+		tile.setTileMetadata(dat.readInt());
+		world.markBlockForUpdate(x, y, z);
 	}
 }

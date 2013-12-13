@@ -1,7 +1,5 @@
 package elcon.mods.towncraft.blocks;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -10,21 +8,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStone extends BlockMetadata {
+public class BlockStoneCracked extends BlockMetadata {
 
 	private Icon[] icons = new Icon[16];
 	
-	public BlockStone(int id) {
+	public BlockStoneCracked(int id) {
 		super(id, Material.rock);
 		setHardness(1.5F);
 		setResistance(10.0F);
 		setStepSound(Block.soundStoneFootstep);
 		setCreativeTab(TownCraft.creativeTab);
-	}
-	
-	@Override
-	public int idDropped(int meta, Random random, int fortune) {
-		return TownCraft.stoneCracked.blockID;
 	}
 	
 	@Override
@@ -37,7 +30,7 @@ public class BlockStone extends BlockMetadata {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = iconRegister.registerIcon("towncraft:stone_" + Integer.toString(i));
+			icons[i] = iconRegister.registerIcon("towncraft:stoneCracked_" + Integer.toString(i));
 		}
 	}
 }

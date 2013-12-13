@@ -13,6 +13,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import elcon.mods.towncraft.blocks.BlockStone;
+import elcon.mods.towncraft.items.ItemBlockMetadata;
+import elcon.mods.towncraft.tileentities.TileEntityExtended;
+import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
 @Mod(modid = TCReference.MOD_ID, name = TCReference.NAME, version = TCReference.VERSION, acceptedMinecraftVersions = TCReference.MC_VERSION, dependencies = TCReference.DEPENDENCIES)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, clientPacketHandlerSpec = @SidedPacketHandler(packetHandler = TCPacketHandlerClient.class, channels = {"TownCraft"}), serverPacketHandlerSpec = @SidedPacketHandler(packetHandler = TCPacketHandler.class, channels = {"TownCraft"}))
@@ -20,13 +23,13 @@ public class TownCraft {
 
 	@Instance(TCReference.MOD_ID)
 	public static TownCraft instance;
-	
+
 	@SidedProxy(clientSide = TCReference.CLIENT_PROXY_CLASS, serverSide = TCReference.SERVER_PROXY_CLASS)
 	public static TCCommonProxy proxy;
-	
+
 	public static TCConfig config;
 	public static TCCreativeTab creativeTab;
-	
+
 	public static Block stone;
 	public static Block stoneSlab;
 	public static Block stoneStairs;
@@ -39,48 +42,61 @@ public class TownCraft {
 	public static Block stoneBrick;
 	public static Block stoneBrickSlab;
 	public static Block stoneBrickStairs;
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		//init log
+		// init log
 		TCLog.init();
-		
-		//init and load config
+
+		// init and load config
 		config = new TCConfig(event.getSuggestedConfigurationFile());
 		config.load();
 		config.save();
-		
-		//init creative tab
+
+		// init creative tab
 		creativeTab = new TCCreativeTab(CreativeTabs.getNextID(), "TownCraft");
-		
-		//init blocks
+
+		// init blocks
 		stone = new BlockStone(TCConfig.blockStoneID).setUnlocalizedName("TC_stone");
-		//stoneSlab = new BlockStone(TCConfig.blockStoneSlabID).setUnlocalizedName("TC_stoneSlab");
-		//stoneStairs = new BlockStone(TCConfig.blockStoneStairsID).setUnlocalizedName("TC_stoneStairs");
-		//stoneCracked = new BlockStone(TCConfig.blockStoneID).setUnlocalizedName("TC_stoneCracked");
-		//stoneCrackedSlab = new BlockStone(TCConfig.blockStoneSlabID).setUnlocalizedName("TC_stoneCrackedSlab");
-		//stoneCrackedStairs = new BlockStone(TCConfig.blockStoneStairsID).setUnlocalizedName("TC_stoneCrackedStairs");
-		//stoneMossy = new BlockStone(TCConfig.blockStoneMossyID).setUnlocalizedName("TC_stoneMossy");
-		//stoneMossySlab = new BlockStone(TCConfig.blockStoneMossySlabID).setUnlocalizedName("TC_stoneMossySlab");
-		//stoneMossyStairs = new BlockStone(TCConfig.blockStoneMossyStairsID).setUnlocalizedName("TC_stoneMossyStairs");
-		//stoneBrick = new BlockStone(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
-		//stoneBrickSlab = new BlockStone(TCConfig.blockStoneBrickSlabID).setUnlocalizedName("TC_stoneBrickSlab");
-		//stoneBrickStairs = new BlockStone(TCConfig.blockStoneBrickStairsID).setUnlocalizedName("TC_stoneBrickStairs");
-		
-		//register blocks
-		GameRegistry.registerBlock(stone, "TC_stone");
-		//GameRegistry.registerBlock(stoneSlab, "TC_stoneSlab");
-		//GameRegistry.registerBlock(stoneStairs, "TC_stoneStairs");
+		stoneSlab = new BlockStone(TCConfig.blockStoneSlabID).setUnlocalizedName("TC_stoneSlab");
+		stoneStairs = new BlockStone(TCConfig.blockStoneStairsID).setUnlocalizedName("TC_stoneStairs");
+		stoneCracked = new BlockStone(TCConfig.blockStoneID).setUnlocalizedName("TC_stoneCracked");
+		stoneCrackedSlab = new BlockStone(TCConfig.blockStoneSlabID).setUnlocalizedName("TC_stoneCrackedSlab");
+		stoneCrackedStairs = new BlockStone(TCConfig.blockStoneStairsID).setUnlocalizedName("TC_stoneCrackedStairs");
+		stoneMossy = new BlockStone(TCConfig.blockStoneMossyID).setUnlocalizedName("TC_stoneMossy");
+		stoneMossySlab = new BlockStone(TCConfig.blockStoneMossySlabID).setUnlocalizedName("TC_stoneMossySlab");
+		stoneMossyStairs = new BlockStone(TCConfig.blockStoneMossyStairsID).setUnlocalizedName("TC_stoneMossyStairs");
+		stoneBrick = new BlockStone(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
+		stoneBrickSlab = new BlockStone(TCConfig.blockStoneBrickSlabID).setUnlocalizedName("TC_stoneBrickSlab");
+		stoneBrickStairs = new BlockStone(TCConfig.blockStoneBrickStairsID).setUnlocalizedName("TC_stoneBrickStairs");
+
+		// register blocks
+		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
+		GameRegistry.registerBlock(stoneSlab, ItemBlockMetadata.class, "TC_stoneSlab");
+		GameRegistry.registerBlock(stoneStairs, ItemBlockMetadata.class, "TC_stoneStairs");
+		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadata.class, "TC_stoneCracked");
+		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockMetadata.class, "TC_stoneCrackedSlab");
+		GameRegistry.registerBlock(stoneCrackedStairs, ItemBlockMetadata.class, "TC_stoneCrackedStairs");
+		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadata.class, "TC_stoneMossy");
+		GameRegistry.registerBlock(stoneMossySlab, ItemBlockMetadata.class, "TC_stoneMossySlab");
+		GameRegistry.registerBlock(stoneMossyStairs, ItemBlockMetadata.class, "TC_stoneMossyStairs");
+		GameRegistry.registerBlock(stoneBrick, ItemBlockMetadata.class, "TC_stoneBrick");
+		GameRegistry.registerBlock(stoneBrickSlab, ItemBlockMetadata.class, "TC_stoneBrickSlab");
+		GameRegistry.registerBlock(stoneBrickStairs, ItemBlockMetadata.class, "TC_stoneBrickStairs");
+
+		// register tile entities
+		GameRegistry.registerTileEntity(TileEntityExtended.class, "TileExtended");
+		GameRegistry.registerTileEntity(TileEntityMetadata.class, "TileMetadata");
 	}
-	
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		//register render information
+		// register render information
 		proxy.registerRenderingInformation();
 	}
-	
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+
 	}
 }

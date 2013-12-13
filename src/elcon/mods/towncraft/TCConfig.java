@@ -8,18 +8,18 @@ public class TCConfig {
 
 	public Configuration config;
 	
-	public static int blockStoneID;
-	public static int blockStoneSlabID;
-	public static int blockStoneStairsID;
-	public static int blockStoneCrackedID;
-	public static int blockStoneCrackedSlabID;
-	public static int blockStoneCrackedStairsID;
-	public static int blockStoneMossyID;
-	public static int blockStoneMossySlabID;
-	public static int blockStoneMossyStairsID;
-	public static int blockStoneBrickID;
-	public static int blockStoneBrickSlabID;
-	public static int blockStoneBrickStairsID;
+	public static int blockStoneID = 4050;
+	public static int blockStoneSlabID = 4051;
+	public static int blockStoneStairsID = 4052;
+	public static int blockStoneCrackedID = 4053;
+	public static int blockStoneCrackedSlabID = 4054;
+	public static int blockStoneCrackedStairsID = 4056;
+	public static int blockStoneMossyID = 4057;
+	public static int blockStoneMossySlabID = 4058;
+	public static int blockStoneMossyStairsID = 4059;
+	public static int blockStoneBrickID = 4060;
+	public static int blockStoneBrickSlabID = 4061;
+	public static int blockStoneBrickStairsID = 4062;
 	
 	public TCConfig(Configuration config) {
 		this.config = config;
@@ -31,6 +31,19 @@ public class TCConfig {
 	
 	public void load() {
 		config.load();
+		
+		blockStoneID = config.getBlock("blockStoneID", blockStoneID).getInt();
+		blockStoneSlabID = config.getBlock("blockStoneSlabID", blockStoneSlabID).getInt();
+		blockStoneStairsID = config.getBlock("blockStoneStairsID", blockStoneStairsID).getInt();
+		blockStoneCrackedID = config.getBlock("blockStoneCrackedID", blockStoneCrackedID).getInt();
+		blockStoneCrackedSlabID = config.getBlock("blockStoneCrackedSlabID", blockStoneCrackedSlabID).getInt();
+		blockStoneCrackedStairsID = config.getBlock("blockStoneCrackedStairsID", blockStoneCrackedStairsID).getInt();
+		blockStoneMossyID = config.getBlock("blockStoneMossyID", blockStoneMossyID).getInt();
+		blockStoneMossySlabID = config.getBlock("blockStoneMossySlabID", blockStoneMossySlabID).getInt();
+		blockStoneMossyStairsID = config.getBlock("blockStoneMossyStairsID", blockStoneMossyStairsID).getInt();
+		blockStoneBrickID = config.getBlock("blockStoneBrickID", blockStoneBrickID).getInt();
+		blockStoneBrickSlabID = config.getBlock("blockStoneBrickSlabID", blockStoneBrickSlabID).getInt();
+		blockStoneBrickStairsID = config.getBlock("blockStoneBrickStairsID", blockStoneBrickStairsID).getInt();
 	}
 	
 	public void save() {

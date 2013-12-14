@@ -1,6 +1,7 @@
 package elcon.mods.towncraft.structures;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.ForgeDirection;
 
 public class StructureTest extends Structure {
@@ -37,5 +38,10 @@ public class StructureTest extends Structure {
 				}
 			}
 		}
+	}
+	
+	public StructureInstance generate() {
+		StructureGenerator generator = new StructureGenerator(Minecraft.getMinecraft().theWorld, 0, 0, 0, this);
+		return generator.structureInstance;
 	}
 }

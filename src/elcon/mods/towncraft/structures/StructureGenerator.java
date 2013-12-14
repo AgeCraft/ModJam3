@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
+import elcon.mods.towncraft.TCLog;
+import elcon.mods.towncraft.TCUtil;
+
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -40,9 +43,11 @@ public class StructureGenerator {
 		this.structure = structure;
 		structureInstance = new StructureInstance(structure.name);
 		structureInstance.setPosition(x, y, z);
+		TCLog.info("[Structures] Generating structure: " + structure.name);
 		generateSize();
 		generateComponents();
 		generateInWorld();
+		structureInstance.componentOccurrences.putAll(componentOccurrences);
 	}
 
 	public void generateSize() {
@@ -52,8 +57,10 @@ public class StructureGenerator {
 		boundingBox = AxisAlignedBB.getBoundingBox(0, 0, 0, sizeX, sizeY, sizeZ);
 		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		
+		TCLog.info("[Structures] Structure size: " + TCUtil.coordsToString(sizeX, sizeY, sizeZ) + " with " + componentCount + " components");
+		
 		structureInstance.setSize(sizeX, sizeY, sizeZ);
-		structureInstance.boundingBox = AxisAlignedBB.getBoundingBox(x, y, z, x + sizeX, y + sizeY, z + sizeZ);
+		structureInstance.boundingBox = boundingBox.copy().addCoord(x, y, z);
 		structureInstance.componentCount = componentCount;
 	}
 	
@@ -61,11 +68,13 @@ public class StructureGenerator {
 		for(StructureComponent component : structure.components.values()) {
 			componentMaxOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
 			componentOccurrences.put(component.name, 0);
+			TCLog.info("                " + componentMaxOccurrences.get(component.name) + " x " + component.name);
 		}
 		generateComponent(structure.components.get(structure.startComponent), 0, 0, 0, null);
 	}
 	
 	public void generateComponent(StructureComponent component, int x, int y, int z, StructureComponentInstance previousComponent) {
+		TCLog.info("[Structures] Generating component " + component.name + " at " + TCUtil.coordsToString(x, y, z));
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
 			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
 			ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();
@@ -80,13 +89,18 @@ public class StructureGenerator {
 					int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
 					AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
 					if(canGenerate(box)) {
+						boundingBoxes.add(box);
 						StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);
-						instance.boundingBox = box;
+						instance.boundingBox = box.copy().addCoord(this.x, this.y, this.z);
 						instance.setPosition(this.x + xx, this.y + yy, this.y + zz);
 						instance.neighbors[ForgeDirection.OPPOSITES[direction.ordinal()]] = previousComponent;
 						componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
-						boundingBoxes.add(instance.boundingBox);
+						structureInstance.components.add(instance);
+						generateComponent(adjacentComponentBase, xx, yy, zz, instance);
+						proceed = true;
+						TCLog.info("[Structures] Added component " + instance.name + " at " + TCUtil.coordsToString(xx, yy, zz));
 					} else {
+						TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " at " + TCUtil.coordsToString(xx, yy, zz));
 						choosableComponents.remove(adjacentComponent);
 					}
 				}

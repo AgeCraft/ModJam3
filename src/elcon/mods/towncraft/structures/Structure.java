@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class Structure {
@@ -56,6 +57,11 @@ public class Structure {
 	
 	public void removeComponent(String component) {
 		components.remove(component);
+	}
+	
+	public StructureInstance generate(World world, int x, int y, int z) {
+		StructureGenerator generator = new StructureGenerator(world, x, y, z, this);
+		return generator.structureInstance;
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {

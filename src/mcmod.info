@@ -1,0 +1,20 @@
+[
+{
+  "modid": "TownCraft",
+  "name": "TownCraft",
+  "description": "TownCraft adds medieval towns to Minecraft. (Made for ModJam3)",
+  "version": "@VERSION@",
+  "url": "https://github.com/AgeCraft/ModJam3",
+  "updateUrl": "",
+  "authorList": [
+    "ElConquistador"
+  ],
+  "credits": "AgeCraft Team",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

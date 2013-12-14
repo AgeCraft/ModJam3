@@ -2,7 +2,6 @@ package elcon.mods.towncraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.passive.EntitySheep;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -104,13 +103,6 @@ public class TownCraft {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		for(int i = 0; i < 16; i++) {
-			int r = Math.round(EntitySheep.fleeceColorTable[i][0] * 255) << 16;
-			int g = Math.round(EntitySheep.fleeceColorTable[i][1] * 255) << 8;
-			int b = Math.round(EntitySheep.fleeceColorTable[i][2] * 255);
-			
-			int color = (r & 0xFF0000) | (g & 0x00FF00) | (b & 0x0000FF);
-			System.out.println(Integer.toString(color, 16));
-		}
+		
 	}
 }

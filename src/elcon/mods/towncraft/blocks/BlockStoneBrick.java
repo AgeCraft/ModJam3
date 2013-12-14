@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TCUtil;
@@ -38,6 +39,12 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return "tile.TC_stoneBrick." + types[stack.getItemDamage() & 7] + ".name";
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
+		return BlockStone.colors[blockAccess.getBlockMetadata(x, y, z)];
 	}
 	
 	@Override

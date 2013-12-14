@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
@@ -22,6 +23,12 @@ public class BlockStoneCracked extends BlockMetadataOverlay {
 		setResistance(10.0F);
 		setStepSound(Block.soundStoneFootstep);
 		setCreativeTab(TownCraft.creativeTab);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
+		return BlockStone.colors[blockAccess.getBlockMetadata(x, y, z)];
 	}
 	
 	@Override

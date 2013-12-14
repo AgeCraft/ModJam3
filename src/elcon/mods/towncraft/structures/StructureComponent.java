@@ -1,8 +1,10 @@
 package elcon.mods.towncraft.structures;
 
+import elcon.mods.towncraft.TCUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class StructureComponent {
 
@@ -11,7 +13,7 @@ public class StructureComponent {
 	public int sizeY;
 	public int sizeZ;
 	public int[] blockIDs;
-	public int[] blockMetadata;
+	public byte[] blockMetadata;
 	public TileEntity[] blockTileEntities;
 	
 	public StructureComponent(String name) {
@@ -26,6 +28,9 @@ public class StructureComponent {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.sizeZ = sizeZ;
+		blockIDs = new int[sizeX * sizeY * sizeX];
+		blockMetadata = new byte[sizeX * sizeY * sizeX];
+		blockTileEntities = new TileEntity[sizeX * sizeY * sizeX];
 	}
 	
 	public void setSize(int[] size) {
@@ -49,15 +54,37 @@ public class StructureComponent {
 	}
 	
 	public void setBlockMetadata(int x, int y, int z, int metadata) {
-		blockMetadata[x + y * sizeX + z * sizeX * sizeY] = metadata;
+		blockMetadata[x + y * sizeX + z * sizeX * sizeY] = (byte) (metadata & 15);
 	}
 	
 	public void setBlockTileEntity(int x, int y, int z, TileEntity tileEntity) {
 		blockTileEntities[x + y * sizeX + z * sizeX * sizeY] = tileEntity;
 	}
 	
+	public void generate(World world, int x, int y, int z) {
+		for(int i = 0; i < sizeX; i++) {
+			for(int j = 0; j < sizeX; j++) {
+				for(int k = 0; k < sizeX; k++) {
+					world.setBlock(x + i, y + j, z + k, getBlockID(i, j, k), getBlockMetadata(i, j, k), 2);
+					if(getBlockTileEntity(i, j, k) != null) {
+						world.setBlockTileEntity(x + i, y + j, z + k, TCUtil.copyTileEntity(getBlockTileEntity(i, j, k)));
+					}
+				}
+			}
+		}
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
-		
+		name = nbt.getString("Name");
+		setSize(nbt.getInteger("SizeX"), nbt.getInteger("SizeY"), nbt.getInteger("SizeZ"));
+		blockIDs = nbt.getIntArray("BlockIDs");
+		blockMetadata = nbt.getByteArray("BlockMetadata");
+		NBTTagList list = nbt.getTagList("TileEntities");
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound tag = (NBTTagCompound) list.tagAt(i);
+			TileEntity tile = TileEntity.createAndLoadEntity(tag);
+			setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+		}
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -66,21 +93,23 @@ public class StructureComponent {
 		nbt.setInteger("SizeY", sizeY);
 		nbt.setInteger("SizeZ", sizeZ);
 		nbt.setIntArray("BlockIDs", blockIDs);
-		nbt.setIntArray("BlockMetadata", blockMetadata);
+		nbt.setByteArray("BlockMetadata", blockMetadata);
 		NBTTagList list = new NBTTagList();
 		for(int i = 0; i < sizeX; i++) {
 			for(int j = 0; j < sizeX; j++) {
 				for(int k = 0; k < sizeX; k++) {
-					TileEntity tile = blockTileEntities[i + j * sizeX + k * sizeX * sizeY];
+					TileEntity tile = getBlockTileEntity(i, j, k);
 					if(tile != null) {
 						NBTTagCompound tag = new NBTTagCompound();
 						tile.writeToNBT(tag);
 						tag.setInteger("x", i);
 						tag.setInteger("y", j);
 						tag.setInteger("z", k);
+						list.appendTag(tag);
 					}
 				}
 			}
 		}
+		nbt.setTag("TileEntities", list);
 	}
 }

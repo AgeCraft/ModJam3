@@ -2,6 +2,7 @@ package elcon.mods.towncraft;
 
 import java.io.File;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -25,6 +26,25 @@ public class TCUtil {
 		int i;
 		for(i = 255; !world.isAirBlock(x, i + 1, z); i--) {}
 		return i;
+	}
+	
+	public static TileEntity copyTileEntity(TileEntity tile) {
+		TileEntity tile2 = null;
+		try {
+			tile2 = tile.getClass().newInstance();
+			NBTTagCompound nbt = new NBTTagCompound();
+			tile.writeToNBT(nbt);
+			tile2.readFromNBT(nbt);
+			tile2.worldObj = tile.worldObj;
+			tile2.xCoord = tile.xCoord;
+			tile2.yCoord = tile.yCoord;
+			tile2.zCoord = tile.zCoord;
+			tile2.blockType = tile.blockType;
+			tile2.blockMetadata = tile.blockMetadata;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return tile2;
 	}
 
 	public static String firstUpperCase(String s) {

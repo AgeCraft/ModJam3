@@ -18,6 +18,8 @@ public class StructureGenerator {
 	public int sizeY;
 	public int sizeZ;
 	
+	public int componentCount;
+	
 	public StructureGenerator(World world, int x, int y, int z, Structure structure) {
 		this.world = world;
 		this.random = world.rand;
@@ -26,11 +28,23 @@ public class StructureGenerator {
 		this.z = z;
 		this.structure = structure;
 		generateSize();
+		generateComponents();
+		generateInWorld();
 	}
 
 	public void generateSize() {
 		sizeX = structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
+		
+		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
+	}
+	
+	public void generateComponents() {
+		
+	}
+	
+	public void generateInWorld() {
+		
 	}
 }

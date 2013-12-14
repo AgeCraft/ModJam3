@@ -2,6 +2,7 @@ package elcon.mods.towncraft.structures;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -9,6 +10,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class Structure {
 
+	public Random random = new Random();
+	
 	public String name;
 	
 	public int minSizeX;

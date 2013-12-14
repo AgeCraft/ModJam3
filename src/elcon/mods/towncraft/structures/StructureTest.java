@@ -18,7 +18,7 @@ public class StructureTest extends Structure {
 			component1.blockIDs[i] = Block.cloth.blockID;
 			component1.blockMetadata[i] = (byte) random.nextInt(16);
 		}
-		component1.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("component2", 0, 0, 1, 1.0F));
+		component1.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("component2", 0, 0, -1, 1.0F));
 		addComponent(component1);
 		
 		StructureComponent component2 = new StructureComponent("component2");

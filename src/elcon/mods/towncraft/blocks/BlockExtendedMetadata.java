@@ -22,8 +22,8 @@ import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
 public class BlockExtendedMetadata extends BlockContainer implements IBlockExtendedMetadata {
 
-	protected BlockExtendedMetadata(int i, Material material) {
-		super(i, material);
+	public BlockExtendedMetadata(int id, Material material) {
+		super(id, material);
 	}
 
 	public String getLocalizedName(ItemStack stack) {

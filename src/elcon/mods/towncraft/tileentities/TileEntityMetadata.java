@@ -6,8 +6,9 @@ import java.io.DataOutputStream;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMetadata extends TileEntityExtended {
+public class TileEntityMetadata extends TileEntity {
 
 	private int meta = 0;
 	public boolean droppedBlock = false;

@@ -17,9 +17,10 @@ import elcon.mods.towncraft.TownCraft;
 
 public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 
-	public static final String[] types = new String[]{"normal", "cracked", "mossy", "small", "circle", "creeper", "chiseled", "pillar"};
+	public static final String[] types = new String[]{"normal", "cracked", "mossy", "small", "circle", "creeper", "chiseled", "smooth"};
 	
 	private Icon[] icons = new Icon[8];
+	private Icon chiseledTop;
 	private Icon overlayMossy;
 	
 	public BlockStoneBrick(int id) {
@@ -55,7 +56,7 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return icons[meta & 7];
+		return (meta & 7) == 6 && side == 1 ? chiseledTop : icons[meta & 7];
 	}
 	
 	@Override

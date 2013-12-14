@@ -14,6 +14,25 @@ public class StructureAdjacentComponent {
 		this.name = name;
 	}
 	
+	public StructureAdjacentComponent(String name, float chance) {
+		this(name);
+		this.chance = chance;
+	}
+	
+	public StructureAdjacentComponent(String name, int offsetX, int offsetY, int offsetZ) {
+		this(name);
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.offsetZ = offsetZ;
+	}
+	
+	public StructureAdjacentComponent(String name, int offsetX, int offsetY, int offsetZ, float chance) {
+		this(name, chance);
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.offsetZ = offsetZ;
+	}
+	
 	public int[] getOffsets() {
 		return new int[]{offsetX, offsetY, offsetZ};
 	}

@@ -1,6 +1,7 @@
 package elcon.mods.towncraft.structures;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.common.ForgeDirection;
 
 public class StructureTest extends Structure {
 
@@ -15,11 +16,26 @@ public class StructureTest extends Structure {
 			component1.blockIDs[i] = Block.cloth.blockID;
 			component1.blockMetadata[i] = (byte) random.nextInt(16);
 		}
+		component1.setRequiredAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("component2", 0, 0, 1));
 		
 		StructureComponent component2 = new StructureComponent("component2");
 		component2.setSize(4, 5, 6);
 		for(int i = 0; i < 120; i++) {
 			component2.blockIDs[i] = Block.blockDiamond.blockID;
+		}
+		component2.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("component1", 0.5F));
+		component2.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("component3", 0.5F));
+		
+		StructureComponent component3 = new StructureComponent("component3");
+		component3.setSize(9, 9, 9);
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; j < 9; j++) {
+				for(int k = 0; k < 9; k++) {
+					if((i == 0 || i == 8) && (j == 0 || j == 8) && (k == 0 || k == 8)) {
+						component1.blockIDs[i] = Block.stoneBrick.blockID;
+					}
+				}
+			}
 		}
 	}
 }

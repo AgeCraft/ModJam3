@@ -135,6 +135,18 @@ public class StructureComponent {
 				requiredAdjacentComponents[i] = component;
 			}
 		}
+		
+		for(int i = 0; i < adjacentComponents.length; i++) {
+			if(nbt.hasKey("AdjacentComponents" + Integer.toString(i))) {
+				NBTTagList componentList = nbt.getTagList("AdjacentComponents" + Integer.toString(i));
+				for(int j = 0; j < componentList.tagCount(); j++) {
+					NBTTagCompound tag = (NBTTagCompound) componentList.tagAt(j);
+					StructureAdjacentComponent component = new StructureAdjacentComponent(tag.getString("Name"));
+					component.readFromNBT(tag);
+					adjacentComponents[i].add(component);
+				}
+			}
+		}
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -176,6 +188,12 @@ public class StructureComponent {
 		for(int i = 0; i < adjacentComponents.length; i++) {
 			if(adjacentComponents[i].size() > 0) {
 				NBTTagList componentList = new NBTTagList();
+				for(StructureAdjacentComponent component : adjacentComponents[i]) {
+					NBTTagCompound tag = new NBTTagCompound();
+					requiredAdjacentComponents[i].writeToNBT(tag);
+					componentList.appendTag(tag);
+				}
+				nbt.setTag("AdjacentComponents" + Integer.toString(i), componentList);
 			}
 		}
 	}

@@ -27,8 +27,8 @@ public class StructureTest extends Structure {
 		for(int i = 0; i < 120; i++) {
 			component2.blockIDs[i] = Block.blockDiamond.blockID;
 		}
-		component2.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("component1", 0.5F));
-		component2.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("component3", 0.5F));
+		component2.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("component1", 0.5F));
+		component2.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("component3", 0.5F));
 		addComponent(component2);
 		
 		StructureComponent component3 = new StructureComponent("component3");

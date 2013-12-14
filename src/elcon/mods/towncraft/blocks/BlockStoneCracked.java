@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStoneCracked extends BlockMetadata {
+public class BlockStoneCracked extends BlockMetadataOverlay {
 
 	private Icon overlay;
 	
@@ -28,6 +28,12 @@ public class BlockStoneCracked extends BlockMetadata {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
 		return TownCraft.stone.getIcon(side, meta);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Icon getBlockOverlayTexture(int side, int metadata) {
+		return overlay;
 	}
 	
 	@Override

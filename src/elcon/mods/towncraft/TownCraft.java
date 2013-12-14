@@ -16,6 +16,7 @@ import elcon.mods.towncraft.blocks.BlockStone;
 import elcon.mods.towncraft.blocks.BlockStoneBrick;
 import elcon.mods.towncraft.blocks.BlockStoneCracked;
 import elcon.mods.towncraft.blocks.BlockStoneMossy;
+import elcon.mods.towncraft.blocks.BlockStoneSlab;
 import elcon.mods.towncraft.items.ItemBlockExtendedMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadata;
 import elcon.mods.towncraft.tileentities.TileEntityExtended;
@@ -62,30 +63,30 @@ public class TownCraft {
 
 		// init blocks
 		stone = new BlockStone(TCConfig.blockStoneID).setUnlocalizedName("TC_stone");
-		//stoneSlab = new BlockStoneSlab(TCConfig.blockStoneSlabID).setUnlocalizedName("TC_stoneSlab");
-		//stoneStairs = new BlockStoneStairs(TCConfig.blockStoneStairsID).setUnlocalizedName("TC_stoneStairs");
+		stoneSlab = new BlockStoneSlab(TCConfig.blockStoneSlabID, 0).setUnlocalizedName("TC_stoneSlab");
+		//stoneStairs = new BlockStoneStairs(TCConfig.blockStoneStairsID, 0).setUnlocalizedName("TC_stoneStairs");
 		stoneCracked = new BlockStoneCracked(TCConfig.blockStoneCrackedID).setUnlocalizedName("TC_stoneCracked");
-		//stoneCrackedSlab = new BlockStoneSlab(TCConfig.blockStoneCrackedSlabID).setUnlocalizedName("TC_stoneCrackedSlab");
-		//stoneCrackedStairs = new BlockStoneStairs(TCConfig.blockStoneCrackedStairsID).setUnlocalizedName("TC_stoneCrackedStairs");
+		stoneCrackedSlab = new BlockStoneSlab(TCConfig.blockStoneCrackedSlabID, 1).setUnlocalizedName("TC_stoneCrackedSlab");
+		//stoneCrackedStairs = new BlockStoneStairs(TCConfig.blockStoneCrackedStairsID, 1).setUnlocalizedName("TC_stoneCrackedStairs");
 		stoneMossy = new BlockStoneMossy(TCConfig.blockStoneMossyID).setUnlocalizedName("TC_stoneMossy");
-		//stoneMossySlab = new BlockStoneSlab(TCConfig.blockStoneMossySlabID).setUnlocalizedName("TC_stoneMossySlab");
-		//stoneMossyStairs = new BlockStoneStairs(TCConfig.blockStoneMossyStairsID).setUnlocalizedName("TC_stoneMossyStairs");
+		stoneMossySlab = new BlockStoneSlab(TCConfig.blockStoneMossySlabID, 2).setUnlocalizedName("TC_stoneMossySlab");
+		//stoneMossyStairs = new BlockStoneStairs(TCConfig.blockStoneMossyStairsID, 2).setUnlocalizedName("TC_stoneMossyStairs");
 		stoneBrick = new BlockStoneBrick(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
-		//stoneBrickSlab = new BlockStoneSlab(TCConfig.blockStoneBrickSlabID).setUnlocalizedName("TC_stoneBrickSlab");
-		//stoneBrickStairs = new BlockStoneStairs(TCConfig.blockStoneBrickStairsID).setUnlocalizedName("TC_stoneBrickStairs");
+		stoneBrickSlab = new BlockStoneSlab(TCConfig.blockStoneBrickSlabID, 3).setUnlocalizedName("TC_stoneBrickSlab");
+		//stoneBrickStairs = new BlockStoneStairs(TCConfig.blockStoneBrickStairsID, 3).setUnlocalizedName("TC_stoneBrickStairs");
 
 		// register blocks
 		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
-		//GameRegistry.registerBlock(stoneSlab, ItemBlockExtendedMetadata.class, "TC_stoneSlab");
+		GameRegistry.registerBlock(stoneSlab, ItemBlockExtendedMetadata.class, "TC_stoneSlab");
 		//GameRegistry.registerBlock(stoneStairs, ItemBlockExtendedMetadata.class, "TC_stoneStairs");
 		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadata.class, "TC_stoneCracked");
-		//GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockExtendedMetadata.class, "TC_stoneCrackedSlab");
+		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockExtendedMetadata.class, "TC_stoneCrackedSlab");
 		//GameRegistry.registerBlock(stoneCrackedStairs, ItemBlockExtendedMetadata.class, "TC_stoneCrackedStairs");
 		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadata.class, "TC_stoneMossy");
-		//GameRegistry.registerBlock(stoneMossySlab, ItemBlockExtendedMetadata.class, "TC_stoneMossySlab");
+		GameRegistry.registerBlock(stoneMossySlab, ItemBlockExtendedMetadata.class, "TC_stoneMossySlab");
 		//GameRegistry.registerBlock(stoneMossyStairs, ItemBlockExtendedMetadata.class, "TC_stoneMossyStairs");
 		GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
-		//GameRegistry.registerBlock(stoneBrickSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickSlab");
+		GameRegistry.registerBlock(stoneBrickSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickSlab");
 		//GameRegistry.registerBlock(stoneBrickStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickStairs");
 
 		// register tile entities

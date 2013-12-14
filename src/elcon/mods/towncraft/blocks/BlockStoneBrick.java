@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TCUtil;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStoneBrick extends BlockExtendedMetadata {
+public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 
 	public static final String[] types = new String[]{"normal", "cracked", "mossy", "small", "circle", "creeper", "chiseled", "pillar"};
 	
@@ -44,6 +44,18 @@ public class BlockStoneBrick extends BlockExtendedMetadata {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
 		return icons[meta & 7];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Icon getBlockOverlayTexture(int side, int meta) {
+		int type = meta & 7;
+		if(type == 1) {
+			return overlayCracked;
+		} else if(type == 2) {
+			return overlayMossy;
+		}
+		return null;
 	}
 	
 	@Override

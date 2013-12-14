@@ -1,5 +1,6 @@
 package elcon.mods.towncraft;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -8,6 +9,8 @@ public class TCClientProxy extends TCCommonProxy {
 
 	@Override
 	public void registerRenderingInformation() {
-		
+		//register block rendering handlers
+		TCConfig.BLOCK_OVERLAY_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(TCConfig.BLOCK_OVERLAY_RENDER_ID, new BlockRenderingHandlerOverlay());
 	}
 }

@@ -51,7 +51,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		case 2:
 			return TownCraft.stoneMossy.getUnlocalizedName() + ".name";
 		case 3:
-			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 65280) / 256] + ".name";
+			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 3328) / 256] + ".name";
 		case 4:
 			return TownCraft.stoneBrickPillar.getUnlocalizedName() + ".name";
 		}
@@ -59,26 +59,42 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	
 	@Override
 	public int getDroppedMetadata(World world, int x, int y, int z, int meta, int fortune) {
-		return meta & 65532;
+		return meta & 3568;
 	}
 	
 	@Override
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
-		return super.getPlacedMetadata(player, stack, world, x, y, z, side, xx, yy, zz);
+		return stack.getItemDamage() | side;
 	}
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
-		int position = getMetadata(blockAccess, x, y, z) & 3;
+		int meta = getMetadata(blockAccess, x, y, z);
+		int position = meta & 7;
+		boolean isFull = (meta & 8) == 1;
+		if(isFull) {
+			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			return;
+		}
 		switch(position) {
 		case 0:
-			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-			return;
-		case 1:
 			setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
 			return;
+		case 1:
+			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+			return;
 		case 2:
-			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			setBlockBounds(0.5F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+			//setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+			return;
+		case 3:
+			setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			return;
+		case 4:
+			//setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			return;
+		case 5:
+			setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
 			return;
 		}
 	}
@@ -101,8 +117,9 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	
 	@Override
 	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
-		int position = getMetadata(world, x, y, z) & 3;
-		return position == 2 || (position == 0 && side == ForgeDirection.DOWN) || (position == 1 && side == ForgeDirection.UP);
+		return false;
+		//int position = getMetadata(world, x, y, z) & 3;
+		//return position == 2 || (position == 0 && side == ForgeDirection.DOWN) || (position == 1 && side == ForgeDirection.UP);
 	}
 	
 	@Override
@@ -120,7 +137,8 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		int type = (meta & 12) / 4;
+		int position = meta & 7;
+		boolean isFull = (meta & 8) == 1;
 		int color = (meta & 240) / 16;
 		int pattern = (meta & 3328) / 256;
 		switch(stoneType) {
@@ -133,15 +151,13 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		case 3:
 			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
 		case 4:
-			return TownCraft.stoneBrickPillar.get
+			return side == 0 || side == 1 ? TownCraft.stoneBrickPillar.getIcon(side, color * 4) : stoneBrickSmoothSide;
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int position = meta & 7;
-		boolean isFull = (meta & 8) == 1;
 		int pattern = (meta & 3328) / 256;
 		switch(stoneType) {
 		default:
@@ -159,7 +175,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		stoneBrickSmoothSide = iconRegister.registerIcon("towncraft:stoneBrickSmoothSide");
+		stoneBrickSmoothSide = iconRegister.registerIcon("towncraft:stoneBrickSmoothSlab");
 	}
 
 	@Override

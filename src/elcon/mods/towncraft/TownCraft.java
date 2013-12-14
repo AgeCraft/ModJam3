@@ -99,8 +99,6 @@ public class TownCraft {
 	public void init(FMLInitializationEvent event) {
 		// register render information
 		proxy.registerRenderingInformation();
-		
-		System.out.println(Integer.toString((Math.round(0.2F * 255) << 16) | (Math.round(0.3F * 255) << 8) | Math.round(0.7F * 255), 16));
 	}
 
 	@EventHandler

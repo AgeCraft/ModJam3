@@ -1,11 +1,13 @@
 package elcon.mods.towncraft.structures;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class StructureGenerator {
 	
@@ -60,8 +62,14 @@ public class StructureGenerator {
 		}
 	}
 	
-	public void generateComponent() {
-		
+	public void generateComponent(StructureComponent component, int x, int y, int z) {
+		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
+			ArrayList<StructureComponent> choosableComponents = new ArrayList<StructureComponent>();
+			boolean proceed = false;
+			while(!proceed) {
+				
+			}
+		}
 	}
 	
 	public void generateInWorld() {
@@ -71,7 +79,9 @@ public class StructureGenerator {
 	public boolean canGenerate(AxisAlignedBB box) {
 		if(box.minX >= boundingBox.minX && box.minY >= boundingBox.minY && box.minZ >= boundingBox.minZ && box.maxX <= boundingBox.maxX && box.maxY <= boundingBox.maxY && box.maxZ <= boundingBox.maxZ) {
 			for(AxisAlignedBB b : boundingBoxes) {
-				
+				if(b.intersectsWith(box)) {
+					return false;
+				}
 			}
 			return true;
 		}

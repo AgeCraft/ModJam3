@@ -62,7 +62,7 @@ public class StructureInstance {
 		list = nbt.getTagList("Components");
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) list.tagAt(i);
-			StructureComponentInstance component = new StructureComponentInstance(tag.getString("Name"));
+			StructureComponentInstance component = new StructureComponentInstance(tag.getString("StructureName"), tag.getString("Name"));
 			component.readFromNBT(tag);
 			components.add(component);
 		}

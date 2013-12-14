@@ -10,6 +10,7 @@ public class StructureComponentInstance {
 	public int x;
 	public int y;
 	public int z;
+	
 	public AxisAlignedBB boundingBox;
 	
 	public StructureComponentInstance[] neighbors = new StructureComponentInstance[ForgeDirection.VALID_DIRECTIONS.length];
@@ -20,15 +21,15 @@ public class StructureComponentInstance {
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		name = nbt.getString("Name");
-		x = nbt.getInteger("x");
-		y = nbt.getInteger("y");
-		z = nbt.getInteger("z");
+		x = nbt.getInteger("X");
+		y = nbt.getInteger("Y");
+		z = nbt.getInteger("Y");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setString("Name", name);
-		nbt.setInteger("x", x);
-		nbt.setInteger("y", y);
-		nbt.setInteger("z", z);
+		nbt.setInteger("X", x);
+		nbt.setInteger("Y", y);
+		nbt.setInteger("Z", z);
 	}
 }

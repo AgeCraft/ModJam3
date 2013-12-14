@@ -1,6 +1,7 @@
 package elcon.mods.towncraft.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -63,9 +64,6 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
 		boolean isFull = ((meta & 8) / 8) == 1;
-		if(isFull) {
-			return 0;
-		}
 		if(position == 2 || position == 3) {
 			return 1;
 		} else if(position == 4 || position == 5) {
@@ -77,6 +75,11 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	@Override
 	public int getDroppedMetadata(World world, int x, int y, int z, int meta, int fortune) {
 		return meta & 2032;
+	}
+
+	@Override
+	public int quantityDropped(int meta, int fortune, Random random) {
+		return ((meta & 8) / 8) == 1 ? 2 : 1;
 	}
 	
 	@Override
@@ -94,9 +97,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
 		boolean isFull = ((meta & 8) / 8) == 1;
-		System.out.println(((meta & 8) / 8));
 		if(isFull) {
-			System.out.println("YUP");
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			return;
 		}

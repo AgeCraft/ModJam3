@@ -56,7 +56,7 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return (meta & 7) == 6 && side == 1 ? chiseledTop : icons[meta & 7];
+		return (meta & 7) == 6 && (side == 0 || side == 1) ? chiseledTop : icons[meta & 7];
 	}
 	
 	@Override
@@ -76,6 +76,7 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 				icons[i] = iconRegister.registerIcon("towncraft:stoneBrick" + TCUtil.firstUpperCase(types[i]));
 			}
 		}
+		chiseledTop = iconRegister.registerIcon("towncraft:stoneBrickChiseledTop");
 		overlayMossy = iconRegister.registerIcon("towncraft:stoneBrickMossyOverlay");
 	}
 	

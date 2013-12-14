@@ -49,6 +49,8 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 			return TownCraft.stoneMossy.getUnlocalizedName() + ".name";
 		case 3:
 			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 65280) / 256] + ".name";
+		case 4:
+			return TownCraft.stoneBrickPillar.getUnlocalizedName() + ".name";
 		}
 	}
 	
@@ -118,7 +120,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		int type = (meta & 12) / 4;
 		int color = (meta & 240) / 16;
 		int pattern = (meta & 65280) / 256;
-		switch(type) {
+		switch(stoneType) {
 		default:
 		case 0:
 			return TownCraft.stone.getIcon(side, color);
@@ -133,9 +135,10 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int type = (meta & 12) / 4;
+		int position = (meta & 12) / 4;
+		boolean isFull = (meta & 1) == 1;
 		int pattern = (meta & 65280) / 256;
-		switch(type) {
+		switch(stoneType) {
 		default:
 		case 0:
 		case 1:
@@ -143,7 +146,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		case 2:
 			return ((BlockOverlay) TownCraft.stoneMossy).getBlockOverlayTexture(side, 0);
 		case 3:
-			return ((BlockOverlay) TownCraft.stoneBrick).getBlockOverlayTexture(side, type);
+			return ((BlockOverlay) TownCraft.stoneBrick).getBlockOverlayTexture(side, pattern);
 		}
 	}
 
@@ -153,10 +156,10 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		for(int i = 0; i < 16; i++) {
 			if(stoneType == 3) {
 				for(int j = 0; j < 8; j++) {
-					list.add(new ItemStack(id, 1, stoneType * 4 + i * 16 + j * 256));
+					list.add(new ItemStack(id, 1, i * 16 + j * 256));
 				}
 			} else {
-				list.add(new ItemStack(id, 1, stoneType * 4 + i * 16));
+				list.add(new ItemStack(id, 1, i * 16));
 			}
 		}
 	}

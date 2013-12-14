@@ -1,5 +1,6 @@
 package elcon.mods.towncraft.structures;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import net.minecraft.world.World;
@@ -19,6 +20,7 @@ public class StructureGenerator {
 	public int sizeZ;
 	
 	public int componentCount;
+	public HashMap<String, Integer> componentOccurrences = new HashMap<String, Integer>();
 	
 	public StructureGenerator(World world, int x, int y, int z, Structure structure) {
 		this.world = world;
@@ -41,7 +43,9 @@ public class StructureGenerator {
 	}
 	
 	public void generateComponents() {
-		
+		for(StructureComponent component : structure.components.values()) {
+			componentOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
+		}
 	}
 	
 	public void generateInWorld() {

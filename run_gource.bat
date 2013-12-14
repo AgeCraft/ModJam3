@@ -1,0 +1,1 @@
+C:\Users\Daniel\Documents\gource-0.39.win32\gource -1280x720 --seconds-per-day 30 --title "ModJam3" --hide mouse --key

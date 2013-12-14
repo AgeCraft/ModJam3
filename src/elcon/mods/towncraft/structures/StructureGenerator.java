@@ -25,6 +25,7 @@ public class StructureGenerator {
 	public int sizeZ;
 	
 	public int componentCount;
+	public HashMap<String, Integer> componentMaxOccurrences = new HashMap<String, Integer>();
 	public HashMap<String, Integer> componentOccurrences = new HashMap<String, Integer>();
 	
 	public AxisAlignedBB boundingBox;
@@ -58,12 +59,13 @@ public class StructureGenerator {
 	
 	public void generateComponents() {
 		for(StructureComponent component : structure.components.values()) {
-			componentOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
+			componentMaxOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
+			componentOccurrences.put(component.name, 0);
 		}
-		generateComponent(structure.components.get(structure.startComponent), 0, 0, 0);
+		generateComponent(structure.components.get(structure.startComponent), 0, 0, 0, null);
 	}
 	
-	public void generateComponent(StructureComponent component, int x, int y, int z) {
+	public void generateComponent(StructureComponent component, int x, int y, int z, StructureComponentInstance previousComponent) {
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
 			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
 			ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();
@@ -78,7 +80,12 @@ public class StructureGenerator {
 					int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
 					AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
 					if(canGenerate(box)) {
-						//make component instance and add it to lists
+						StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);
+						instance.boundingBox = box;
+						instance.setPosition(this.x + xx, this.y + yy, this.y + zz);
+						instance.neighbors[ForgeDirection.OPPOSITES[direction.ordinal()]] = previousComponent;
+						componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
+						boundingBoxes.add(instance.boundingBox);
 					} else {
 						choosableComponents.remove(adjacentComponent);
 					}

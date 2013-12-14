@@ -1,4 +1,7 @@
-ModJam3
+TownCraft
 =======
 
-A Minecraft mod made for ModJam 3, more info soon...
+TownCraft is a Minecraft mods that adds medieval towns.
+This mod was made for ModJam3.
+
+More information soon...

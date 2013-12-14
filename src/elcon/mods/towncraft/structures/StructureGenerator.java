@@ -36,7 +36,11 @@ public class StructureGenerator {
 	
 	public StructureGenerator(World world, int x, int y, int z, Structure structure) {
 		this.world = world;
-		this.random = world.rand;
+		if(world != null) {
+			this.random = world.rand;
+		} else {
+			this.random = new Random();
+		}
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -54,8 +58,8 @@ public class StructureGenerator {
 		sizeX = structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
-		boundingBox = AxisAlignedBB.getBoundingBox(0, 0, 0, sizeX, sizeY, sizeZ);
-		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
+		boundingBox = AxisAlignedBB.getBoundingBox(-sizeX / 2, -sizeY / 2, -sizeZ / 2, sizeX / 2, sizeY / 2, sizeZ / 2);
+		componentCount = 1 + structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		
 		TCLog.info("[Structures] Structure size: " + TCUtil.coordsToString(sizeX, sizeY, sizeZ) + " with " + componentCount + " components");
 		
@@ -77,31 +81,40 @@ public class StructureGenerator {
 		TCLog.info("[Structures] Generating component " + component.name + " at " + TCUtil.coordsToString(x, y, z));
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
 			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
-			ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();
-			choosableComponents.addAll(component.getAdjacentComponents(direction));
-			boolean proceed = false;
-			while(!proceed) {
-				StructureAdjacentComponent adjacentComponent = choosableComponents.get(random.nextInt(choosableComponents.size()));
-				StructureComponent adjacentComponentBase = structure.components.get(adjacentComponent.name);
-				if(random.nextFloat() <= adjacentComponent.chance) {
-					int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX;
-					int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY;
-					int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
-					AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
-					if(canGenerate(box)) {
-						boundingBoxes.add(box);
-						StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);
-						instance.boundingBox = box.copy().addCoord(this.x, this.y, this.z);
-						instance.setPosition(this.x + xx, this.y + yy, this.y + zz);
-						instance.neighbors[ForgeDirection.OPPOSITES[direction.ordinal()]] = previousComponent;
-						componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
-						structureInstance.components.add(instance);
-						generateComponent(adjacentComponentBase, xx, yy, zz, instance);
-						proceed = true;
-						TCLog.info("[Structures] Added component " + instance.name + " at " + TCUtil.coordsToString(xx, yy, zz));
+			if(component.getAdjacentComponents(direction).size() > 0) {
+				ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();
+				choosableComponents.addAll(component.getAdjacentComponents(direction));
+				boolean proceed = false;
+				while(!proceed) {
+					if(choosableComponents.size() > 0) {
+						StructureAdjacentComponent adjacentComponent = choosableComponents.get(random.nextInt(choosableComponents.size()));
+						StructureComponent adjacentComponentBase = structure.components.get(adjacentComponent.name);
+						if(componentOccurrences.get(adjacentComponentBase.name) >= componentMaxOccurrences.get(adjacentComponentBase.name)) {
+							TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " too many occurrences");
+							choosableComponents.remove(adjacentComponent);
+						} else if(random.nextFloat() <= adjacentComponent.chance) {
+							int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX;
+							int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY;
+							int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
+							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
+							if(canGenerate(box)) {
+								boundingBoxes.add(box);
+								StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);
+								instance.boundingBox = box.copy().addCoord(this.x, this.y, this.z);
+								instance.setPosition(this.x + xx, this.y + yy, this.y + zz);
+								instance.neighbors[ForgeDirection.OPPOSITES[direction.ordinal()]] = previousComponent;
+								componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
+								structureInstance.components.add(instance);
+								TCLog.info("[Structures] Added component " + instance.name + " at " + TCUtil.coordsToString(xx, yy, zz));
+								generateComponent(adjacentComponentBase, xx, yy, zz, instance);
+								proceed = true;
+							} else {
+								TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " at " + TCUtil.coordsToString(xx, yy, zz));
+								choosableComponents.remove(adjacentComponent);
+							}
+						}
 					} else {
-						TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " at " + TCUtil.coordsToString(xx, yy, zz));
-						choosableComponents.remove(adjacentComponent);
+						proceed = true;
 					}
 				}
 			}

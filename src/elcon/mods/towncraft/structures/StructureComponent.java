@@ -41,9 +41,9 @@ public class StructureComponent {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.sizeZ = sizeZ;
-		blockIDs = new int[sizeX * sizeY * sizeX];
-		blockMetadata = new byte[sizeX * sizeY * sizeX];
-		blockTileEntities = new TileEntity[sizeX * sizeY * sizeX];
+		blockIDs = new int[sizeX * sizeY * sizeZ];
+		blockMetadata = new byte[sizeX * sizeY * sizeZ];
+		blockTileEntities = new TileEntity[sizeX * sizeY * sizeZ];
 	}
 	
 	public void setSize(int[] size) {

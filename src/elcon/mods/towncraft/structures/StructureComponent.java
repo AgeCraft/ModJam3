@@ -1,6 +1,6 @@
 package elcon.mods.towncraft.structures;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,12 +24,12 @@ public class StructureComponent {
 	public int maxOccurrences;
 	
 	public StructureAdjacentComponent[] requiredAdjacentComponents = new StructureAdjacentComponent[ForgeDirection.VALID_DIRECTIONS.length];
-	public ArrayList<StructureAdjacentComponent>[] adjacentComponents = new ArrayList[ForgeDirection.VALID_DIRECTIONS.length];
+	public LinkedList<StructureAdjacentComponent>[] adjacentComponents = new LinkedList[ForgeDirection.VALID_DIRECTIONS.length];
 	
 	public StructureComponent(String name) {
 		this.name = name;
 		for(int i = 0; i < adjacentComponents.length; i++) {
-			adjacentComponents[i] = new ArrayList<StructureAdjacentComponent>();
+			adjacentComponents[i] = new LinkedList<StructureAdjacentComponent>();
 		}
 	}
 	

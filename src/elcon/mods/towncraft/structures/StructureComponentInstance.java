@@ -1,11 +1,10 @@
 package elcon.mods.towncraft.structures;
 
-import java.util.LinkedList;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 
-public class StructureInstance {
+public class StructureComponentInstance {
 
 	public String name;
 	public int x;
@@ -13,11 +12,7 @@ public class StructureInstance {
 	public int z;
 	public AxisAlignedBB boundingBox;
 	
-	public LinkedList<StructureComponentInstance> components = new LinkedList<StructureComponentInstance>();
-	
-	public StructureInstance(String name) {
-		this.name = name;
-	}
+	public StructureComponentInstance[] neighbors = new StructureComponentInstance[ForgeDirection.VALID_DIRECTIONS.length];
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		name = nbt.getString("Name");

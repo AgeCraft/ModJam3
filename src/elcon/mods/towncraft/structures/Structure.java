@@ -1,7 +1,7 @@
 package elcon.mods.towncraft.structures;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +27,7 @@ public class Structure {
 	public HashMap<String, StructureComponent> components = new HashMap<String, StructureComponent>();
 	public String startComponent;
 	
-	public ArrayList<BiomeGenBase> spawnableBiomes = new ArrayList<BiomeGenBase>();
+	public LinkedList<BiomeGenBase> spawnableBiomes = new LinkedList<BiomeGenBase>();
 	
 	public Structure(String name) {
 		this.name = name;

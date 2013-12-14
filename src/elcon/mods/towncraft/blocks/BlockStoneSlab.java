@@ -28,9 +28,9 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		int type = meta & 11;
-		int color = meta & 239;
-		int pattern = meta & 65279;
+		int type = (meta & 11) / 4;
+		int color = (meta & 239) / 8;
+		int pattern = (meta & 65279) / 256;
 		System.out.println(type + " | " + color + " | " + pattern);
 		switch(type) {
 		default:

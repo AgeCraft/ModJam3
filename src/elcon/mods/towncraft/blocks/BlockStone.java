@@ -15,6 +15,10 @@ import elcon.mods.towncraft.TownCraft;
 
 public class BlockStone extends BlockMetadata {
 
+	public static int[] colors = new int[]{
+		
+	};
+	
 	private Icon icon;
 	
 	public BlockStone(int id) {

@@ -2,6 +2,7 @@ package elcon.mods.towncraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.passive.EntitySheep;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,6 +20,7 @@ import elcon.mods.towncraft.blocks.BlockStoneMossy;
 import elcon.mods.towncraft.blocks.BlockStoneSlab;
 import elcon.mods.towncraft.items.ItemBlockExtendedMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadata;
+import elcon.mods.towncraft.items.ItemBlockMetadataOverlay;
 import elcon.mods.towncraft.tileentities.TileEntityExtended;
 import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
@@ -79,10 +81,10 @@ public class TownCraft {
 		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
 		GameRegistry.registerBlock(stoneSlab, ItemBlockExtendedMetadata.class, "TC_stoneSlab");
 		//GameRegistry.registerBlock(stoneStairs, ItemBlockExtendedMetadata.class, "TC_stoneStairs");
-		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadata.class, "TC_stoneCracked");
+		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadataOverlay.class, "TC_stoneCracked");
 		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockExtendedMetadata.class, "TC_stoneCrackedSlab");
 		//GameRegistry.registerBlock(stoneCrackedStairs, ItemBlockExtendedMetadata.class, "TC_stoneCrackedStairs");
-		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadata.class, "TC_stoneMossy");
+		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadataOverlay.class, "TC_stoneMossy");
 		GameRegistry.registerBlock(stoneMossySlab, ItemBlockExtendedMetadata.class, "TC_stoneMossySlab");
 		//GameRegistry.registerBlock(stoneMossyStairs, ItemBlockExtendedMetadata.class, "TC_stoneMossyStairs");
 		GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
@@ -102,6 +104,13 @@ public class TownCraft {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-
+		for(int i = 0; i < 16; i++) {
+			int r = Math.round(EntitySheep.fleeceColorTable[i][0] * 255) << 16;
+			int g = Math.round(EntitySheep.fleeceColorTable[i][1] * 255) << 8;
+			int b = Math.round(EntitySheep.fleeceColorTable[i][2] * 255);
+			
+			int color = (r & 0xFF0000) | (g & 0x00FF00) | (b & 0x0000FF);
+			System.out.println(Integer.toString(color, 16));
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package elcon.mods.towncraft.structures;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class StructureAdjacentComponent {
 
 	public StructureComponent component;
@@ -14,5 +16,17 @@ public class StructureAdjacentComponent {
 		this.offsetY = offsetY;
 		this.offsetZ = offsetZ;
 		this.chance = chance;
+	}
+	
+	public void readFromNBT(NBTTagCompound nbt) {
+		
+	}
+	
+	public void writeToNBT(NBTTagCompound nbt) {
+		nbt.setString("Name", component.name);
+		nbt.setInteger("OffsetX", offsetX);
+		nbt.setInteger("OffsetY", offsetY);
+		nbt.setInteger("OffsetZ", offsetY);
+		nbt.setFloat("Chance", chance);
 	}
 }

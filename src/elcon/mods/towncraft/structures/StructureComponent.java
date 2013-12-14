@@ -1,10 +1,14 @@
 package elcon.mods.towncraft.structures;
 
-import elcon.mods.towncraft.TCUtil;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import elcon.mods.towncraft.TCUtil;
 
 public class StructureComponent {
 
@@ -16,8 +20,17 @@ public class StructureComponent {
 	public byte[] blockMetadata;
 	public TileEntity[] blockTileEntities;
 	
+	public int minOccurrences;
+	public int maxOccurrences;
+	
+	public StructureAdjacentComponent[] requiredAdjacentComponents = new StructureAdjacentComponent[ForgeDirection.VALID_DIRECTIONS.length];
+	public LinkedList<StructureAdjacentComponent>[] adjacentComponents = new LinkedList[ForgeDirection.VALID_DIRECTIONS.length];
+	
 	public StructureComponent(String name) {
 		this.name = name;
+		for(int i = 0; i < adjacentComponents.length; i++) {
+			adjacentComponents[i] = new LinkedList<StructureAdjacentComponent>();
+		}
 	}
 	
 	public int[] getSize() {
@@ -59,6 +72,31 @@ public class StructureComponent {
 	
 	public void setBlockTileEntity(int x, int y, int z, TileEntity tileEntity) {
 		blockTileEntities[x + y * sizeX + z * sizeX * sizeY] = tileEntity;
+	}
+	
+	public void setMinMaxOccurrences(int minOccurrences, int maxOccurrences) {
+		this.minOccurrences = minOccurrences;
+		this.maxOccurrences = maxOccurrences;
+	}
+	
+	public StructureAdjacentComponent getRequiredAdjacentComponent(ForgeDirection direction) {
+		return requiredAdjacentComponents[direction.ordinal()];
+	}
+	
+	public void setRequiredAdjacentComponent(ForgeDirection direction, StructureAdjacentComponent component) {
+		requiredAdjacentComponents[direction.ordinal()] = component;
+	}
+	
+	public List<StructureAdjacentComponent> getAdjacentComponents(ForgeDirection direction) {
+		return adjacentComponents[direction.ordinal()];
+	}
+	
+	public void addAdjacentComponent(ForgeDirection direction, StructureAdjacentComponent component) {
+		adjacentComponents[direction.ordinal()].add(component);
+	}
+	
+	public void removeAdjacentComponent(ForgeDirection direction, StructureAdjacentComponent component) {
+		adjacentComponents[direction.ordinal()].remove(component);
 	}
 	
 	public void generate(World world, int x, int y, int z) {
@@ -111,5 +149,8 @@ public class StructureComponent {
 			}
 		}
 		nbt.setTag("TileEntities", list);
+		
+		nbt.setInteger("MinOccurrences", minOccurrences);
+		nbt.setInteger("MaxOccurrences", maxOccurrences);
 	}
 }

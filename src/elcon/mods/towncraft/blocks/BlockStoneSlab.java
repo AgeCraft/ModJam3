@@ -8,10 +8,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
@@ -51,22 +51,21 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		setBlockBoundsBasedOnState(world, x, y, z);
 		super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
 	}
-
+	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		int position = blockAccess.getBlockMetadata(x, y, z) & 3;
-		if(position == 2) {
-			return super.shouldSideBeRendered(blockAccess, x, y, z, side);
-		} else if(side != 1 && side != 0 && !super.shouldSideBeRendered(blockAccess, x, y, z, side)) {
-			return false;
-		} else {
-			int xx = x + Facing.offsetsXForSide[Facing.oppositeSide[side]];
-			int yy = y + Facing.offsetsYForSide[Facing.oppositeSide[side]];
-			int zz = z + Facing.offsetsZForSide[Facing.oppositeSide[side]];
-			boolean flag = (blockAccess.getBlockMetadata(xx, yy, zz) & 8) != 0;
-			return flag ? (side == 0 ? true : (side == 1 && super.shouldSideBeRendered(blockAccess, x, y, z, side) ? true : position == 2 || position == 0)) : (side == 1 ? true : (side == 0 && super.shouldSideBeRendered(blockAccess, x, y, z, side) ? true : position == 2 || position == 1));
-		}
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean isBlockSolid(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		return (blockAccess.getBlockMetadata(x, y, z) & 3) == 2;
+	}
+	
+	@Override
+	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
+		int position = world.getBlockMetadata(x, y, z) & 3;
+		return position == 2 || (position == 0 && side == ForgeDirection.DOWN) || (position == 1 && side == ForgeDirection.UP);
 	}
 
 	@Override

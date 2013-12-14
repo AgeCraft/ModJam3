@@ -14,6 +14,7 @@ import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import elcon.mods.towncraft.blocks.BlockStone;
 import elcon.mods.towncraft.blocks.BlockStoneBrick;
+import elcon.mods.towncraft.blocks.BlockStoneBrickPillar;
 import elcon.mods.towncraft.blocks.BlockStoneCracked;
 import elcon.mods.towncraft.blocks.BlockStoneMossy;
 import elcon.mods.towncraft.blocks.BlockStoneSlab;
@@ -48,6 +49,9 @@ public class TownCraft {
 	public static Block stoneBrick;
 	public static Block stoneBrickSlab;
 	public static Block stoneBrickStairs;
+	public static Block stoneBrickPillar;
+	public static Block stoneBrickPillarSlab;
+	public static Block stoneBrickPillarStairs;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -75,6 +79,9 @@ public class TownCraft {
 		stoneBrick = new BlockStoneBrick(TCConfig.blockStoneBrickID).setUnlocalizedName("TC_stoneBrick");
 		stoneBrickSlab = new BlockStoneSlab(TCConfig.blockStoneBrickSlabID, 3).setUnlocalizedName("TC_stoneBrickSlab");
 		//stoneBrickStairs = new BlockStoneStairs(TCConfig.blockStoneBrickStairsID, 3).setUnlocalizedName("TC_stoneBrickStairs");
+		stoneBrickPillar = new BlockStoneBrickPillar(TCConfig.blockStoneBrickPillarID).setUnlocalizedName("TC_stoneBrickPillar");
+		stoneBrickPillarSlab = new BlockStoneSlab(TCConfig.blockStoneBrickPillarSlabID, 4).setUnlocalizedName("TC_stoneBrickPillarSlab");
+		//stoneBrickPillarStairs = new BlockStoneStairs(TCConfig.blockStoneBrickPillarStairsID, 4).setUnlocalizedName("TC_stoneBrickPillarStairs");
 
 		// register blocks
 		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
@@ -89,6 +96,9 @@ public class TownCraft {
 		GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
 		GameRegistry.registerBlock(stoneBrickSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickSlab");
 		//GameRegistry.registerBlock(stoneBrickStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickStairs");
+		GameRegistry.registerBlock(stoneBrickPillar, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillar");
+		GameRegistry.registerBlock(stoneBrickPillarSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillarSlab");
+		//GameRegistry.registerBlock(stoneBrickPillarStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillarStairs");
 
 		// register tile entities
 		GameRegistry.registerTileEntity(TileEntityExtended.class, "TileExtended");

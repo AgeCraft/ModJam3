@@ -15,7 +15,7 @@ import elcon.mods.towncraft.blocks.IBlockRotated;
 public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
 	public static final double OVERLAY_SHIFT = 0.001D;
-	
+
 	public int getRenderId() {
 		return TCConfig.BLOCK_OVERLAY_RENDER_ID;
 	}
@@ -41,7 +41,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		int mixedBrightness = block.getMixedBrightnessForBlock(blockAccess, x, y, z);
 		int metadata = blockAccess.getBlockMetadata(x, y, z);
 		Icon overlay = null;
-		
+
 		overlay = block.getBlockOverlayTexture(blockAccess, x, y, z, 0);
 		if(overlay != null && block.shouldOverlaySideBeRendered(blockAccess, x, y, z, 0)) {
 			int color = block.getBlockOverlayColor(blockAccess, x, y, z, 0);
@@ -162,8 +162,8 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		tesselator.setColorOpaque_F(0.6F * r, 0.6F * g, 0.6F * b);
 		renderer.renderFaceXPos(block, x + OVERLAY_SHIFT, y, z, textureIndex);
 	}
-	
-	public boolean renderBlockRotated(IBlockAccess blockAccess, IBlockRotated block, int x, int y, int z, RenderBlocks renderer) {
+
+	private boolean renderBlockRotated(IBlockAccess blockAccess, IBlockRotated block, int x, int y, int z, RenderBlocks renderer) {
 		int direction = block.getBlockRotation(blockAccess, x, y, z) & 3;
 		if(direction == 2) {
 			renderer.uvRotateEast = 1;
@@ -183,14 +183,16 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		renderer.uvRotateBottom = 0;
 		return flag;
 	}
-	
+
 	public boolean shouldRender3DInInventory() {
 		return true;
 	}
-	
+
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		if(modelID == TCConfig.BLOCK_OVERLAY_RENDER_ID) {
 			renderItemBlockOverlay((BlockOverlay) block, metadata, modelID, renderer);
+		} else if(modelID == TCConfig.BLOCK_ROTATED_RENDER_ID) {
+			renderItemBlock(block, metadata, modelID, renderer);
 		}
 	}
 
@@ -218,7 +220,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
 		tessellator.draw();
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
 		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
@@ -227,7 +229,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
 		tessellator.draw();
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, -1.0F);
 		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
@@ -236,7 +238,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
 		tessellator.draw();
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, 1.0F);
 		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
@@ -245,7 +247,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
 		tessellator.draw();
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
@@ -254,7 +256,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
 		tessellator.draw();
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
@@ -262,6 +264,49 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		if(overlay != null) {
 			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, overlay);
 		}
+		tessellator.draw();
+
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
+
+	private void renderItemBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+		Tessellator tessellator = Tessellator.instance;
+		if(renderer.useInventoryTint) {
+			int color = block.getRenderColor(metadata);
+			float r = (float) (color >> 16 & 255) / 255.0F;
+			float g = (float) (color >> 8 & 255) / 255.0F;
+			float b = (float) (color & 255) / 255.0F;
+			GL11.glColor4f(r, g, b, 1.0F);
+		}
+		block.setBlockBoundsForItemRender();
+		renderer.setRenderBoundsFromBlock(block);
+
+		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, -1.0F);
+		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 0.0F, 1.0F);
+		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
+		tessellator.draw();
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(1.0F, 0.0F, 0.0F);
+		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tessellator.draw();
 
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);

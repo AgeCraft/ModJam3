@@ -106,7 +106,7 @@ public class BlockExtendedMetadataOverlay extends BlockContainerOverlay implemen
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
-		return getMetadata(world, x, y, z);
+		return getDroppedMetadata(world, x, y, z, getMetadata(world, x, y, z), 0);
 	}
 	
 	@Override

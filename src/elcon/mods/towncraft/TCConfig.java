@@ -23,6 +23,9 @@ public class TCConfig {
 	public static int blockStoneBrickID = 4060;
 	public static int blockStoneBrickSlabID = 4061;
 	public static int blockStoneBrickStairsID = 4062;
+	public static int blockStoneBrickPillarID = 4063;
+	public static int blockStoneBrickPillarSlabID = 4064;
+	public static int blockStoneBrickPillarStairsID = 4065;
 	
 	public TCConfig(Configuration config) {
 		this.config = config;
@@ -47,6 +50,9 @@ public class TCConfig {
 		blockStoneBrickID = config.getBlock("blockStoneBrickID", blockStoneBrickID).getInt();
 		blockStoneBrickSlabID = config.getBlock("blockStoneBrickSlabID", blockStoneBrickSlabID).getInt();
 		blockStoneBrickStairsID = config.getBlock("blockStoneBrickStairsID", blockStoneBrickStairsID).getInt();
+		blockStoneBrickPillarID = config.getBlock("blockStoneBrickPillarID", blockStoneBrickPillarID).getInt();
+		blockStoneBrickPillarSlabID = config.getBlock("blockStoneBrickPillarSlabID", blockStoneBrickPillarSlabID).getInt();
+		blockStoneBrickPillarStairsID = config.getBlock("blockStoneBrickPillarStairsID", blockStoneBrickPillarStairsID).getInt();
 	}
 	
 	public void save() {

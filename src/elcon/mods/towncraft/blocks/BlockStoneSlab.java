@@ -58,11 +58,6 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	}
 	
 	@Override
-	public int getDamageValue(World world, int x, int y, int z) {
-		return getMetadata(world, x, y, z) & 65532;
-	}
-	
-	@Override
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
 		return super.getPlacedMetadata(player, stack, world, x, y, z, side, xx, yy, zz);
 	}

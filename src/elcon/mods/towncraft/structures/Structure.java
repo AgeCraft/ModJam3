@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class Structure {
@@ -46,6 +47,14 @@ public class Structure {
 		this.maxComponentCount = maxComponentCount;
 	}
 	
+	public void addComponent(StructureComponent component) {
+		components.put(component.name, component);
+	}
+	
+	public void removeComponent(String component) {
+		components.remove(component);
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
 		name = nbt.getString("Name");
 		setMinSize(nbt.getInteger("MinSizeX"), nbt.getInteger("MinSizeY"), nbt.getInteger("MinSizeZ"));
@@ -53,6 +62,14 @@ public class Structure {
 		setMinMaxComponents(nbt.getInteger("MinComponentCount"), nbt.getInteger("MaxComponentCount"));
 		components.clear();
 		startComponent = nbt.getString("StartComponent");
+		
+		NBTTagList list = nbt.getTagList("Components");
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound tag = (NBTTagCompound) list.tagAt(i);
+			StructureComponent component = new StructureComponent(tag.getString("Name"));
+			component.readFromNBT(tag);
+			addComponent(component);
+		}
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -68,5 +85,13 @@ public class Structure {
 		nbt.setInteger("MaxComponentCount", maxComponentCount);
 		
 		nbt.setString("StartComponent", startComponent);
+		
+		NBTTagList list = new NBTTagList();
+		for(StructureComponent component : components.values()) {
+			NBTTagCompound tag = new NBTTagCompound();
+			component.writeToNBT(tag);
+			list.appendTag(tag);
+		}
+		nbt.setTag("Components", list);
 	}
 }

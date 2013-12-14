@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import elcon.mods.towncraft.TCConfig;
 import elcon.mods.towncraft.TownCraft;
 
 public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlockRotated {
@@ -51,7 +52,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 		case 2:
 			return TownCraft.stoneMossy.getUnlocalizedName() + ".name";
 		case 3:
-			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 3328) / 256] + ".name";
+			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 1792) / 256] + ".name";
 		case 4:
 			return TownCraft.stoneBrickPillar.getUnlocalizedName() + ".name";
 		}
@@ -131,6 +132,16 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	}
 	
 	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID;
+	}
+	
+	@Override
 	public boolean isBlockSolid(IBlockAccess blockAccess, int x, int y, int z, int side) {
 		return (getMetadata(blockAccess, x, y, z) & 3) == 2;
 	}
@@ -159,21 +170,38 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 		boolean isFull = (meta & 8) == 1;
 		int color = (meta & 240) / 16;
 		int pattern = (meta & 1792) / 256;
+		Icon iconTop;
+		Icon iconSide;
 		switch(stoneType) {
 		default:
 		case 0:
-			return TownCraft.stone.getIcon(side, color);
+			iconTop = iconSide = TownCraft.stone.getIcon(side, color);
+			break;
 		case 1:
 		case 2:
-			return TownCraft.stoneCracked.getIcon(side, color);
+			iconTop = iconSide = TownCraft.stoneCracked.getIcon(side, color);
+			break;
 		case 3:
-			if(pattern == 7 && side != 0 && side != 1) {
-				return stoneBrickSmoothSide;
+			if(pattern == 7) {
+				iconSide = stoneBrickSmoothSide;
+			} else {
+				iconSide = TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
 			}
-			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
+			iconTop = TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
+			break;
 		case 4:
-			return TownCraft.stoneBrickPillar.getIcon(side, color * 4);
+			iconTop = TownCraft.stoneBrickPillar.getIcon(0, color * 4);
+			iconSide = TownCraft.stoneBrickPillar.getIcon(2, color * 4);
+			break;
 		}
+		if(position == 0 || position == 1) {
+			return side == 0 || side == 1 ? iconTop : iconSide;
+		} else if(position == 2 || position == 3) {
+			return side == 2 || side == 3 ? iconTop : iconSide;
+		} else if(position == 4 || position == 5) {
+			return side == 4 || side == 5 ? iconTop : iconSide;
+		}
+		return iconSide;
 	}
 
 	@Override

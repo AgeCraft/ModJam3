@@ -15,3 +15,20 @@ tile.TC_stoneBrickPillar.name=Stone Brick Pillar
 
 tile.TC_stoneSlab.name=Slab
 tile.TC_stoneStairs.name=Stairs
+
+colors.white=White
+colors.orange=Orange
+colors.magenta=Magenta
+colors.lightBlue=Light Blue
+colors.yellow=Yellow
+colors.lime=Lime
+colors.pink=Pink
+colors.gray=Gray
+colors.lightGray=Light Gray
+colors.cyan=Cyan
+colors.purple=Purple
+colors.blue=Blue
+colors.brown=Brown
+colors.green=Green
+colors.red=Red
+colors.black=Black

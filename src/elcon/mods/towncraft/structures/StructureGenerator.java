@@ -14,6 +14,7 @@ public class StructureGenerator {
 	public int z;
 	
 	public Structure structure;
+	public StructureInstance structureInstance;
 	
 	public int sizeX;
 	public int sizeY;

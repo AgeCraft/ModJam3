@@ -14,6 +14,10 @@ public class StructureComponentInstance {
 	
 	public StructureComponentInstance[] neighbors = new StructureComponentInstance[ForgeDirection.VALID_DIRECTIONS.length];
 	
+	public StructureComponentInstance(String name) {
+		this.name = name;
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
 		name = nbt.getString("Name");
 		x = nbt.getInteger("x");

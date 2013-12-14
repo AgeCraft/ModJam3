@@ -137,6 +137,7 @@ public class StructureComponent {
 		}
 		
 		for(int i = 0; i < adjacentComponents.length; i++) {
+			adjacentComponents[i].clear();
 			if(nbt.hasKey("AdjacentComponents" + Integer.toString(i))) {
 				NBTTagList componentList = nbt.getTagList("AdjacentComponents" + Integer.toString(i));
 				for(int j = 0; j < componentList.tagCount(); j++) {

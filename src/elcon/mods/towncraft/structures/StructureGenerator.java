@@ -25,6 +25,7 @@ public class StructureGenerator {
 	public int componentCount;
 	public HashMap<String, Integer> componentOccurrences = new HashMap<String, Integer>();
 	
+	public AxisAlignedBB boundingBox;
 	public LinkedList<AxisAlignedBB> boundingBoxes = new LinkedList<AxisAlignedBB>();
 	
 	public StructureGenerator(World world, int x, int y, int z, Structure structure) {
@@ -45,11 +46,11 @@ public class StructureGenerator {
 		sizeX = structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
+		boundingBox = AxisAlignedBB.getBoundingBox(0, 0, 0, sizeX, sizeY, sizeZ);
+		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		
 		structureInstance.setSize(sizeX, sizeY, sizeZ);
 		structureInstance.boundingBox = AxisAlignedBB.getBoundingBox(x, y, z, x + sizeX, y + sizeY, z + sizeZ);
-		
-		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		structureInstance.componentCount = componentCount;
 	}
 	
@@ -59,11 +60,21 @@ public class StructureGenerator {
 		}
 	}
 	
-	public void generateComponent(StructureComponentInstance component, int x, int y, int z) {
+	public void generateComponent() {
 		
 	}
 	
 	public void generateInWorld() {
 		
+	}
+	
+	public boolean canGenerate(AxisAlignedBB box) {
+		if(box.minX >= boundingBox.minX && box.minY >= boundingBox.minY && box.minZ >= boundingBox.minZ && box.maxX <= boundingBox.maxX && box.maxY <= boundingBox.maxY && box.maxZ <= boundingBox.maxZ) {
+			for(AxisAlignedBB b : boundingBoxes) {
+				
+			}
+			return true;
+		}
+		return false;
 	}
 }

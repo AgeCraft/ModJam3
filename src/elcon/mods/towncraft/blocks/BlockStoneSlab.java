@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,8 @@ import elcon.mods.towncraft.TownCraft;
 public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 
 	public int stoneType;
+	
+	private Icon stoneBrickSmoothSide;
 
 	public BlockStoneSlab(int id, int stoneType) {
 		super(id, Material.rock);
@@ -119,7 +122,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	public Icon getIcon(int side, int meta) {
 		int type = (meta & 12) / 4;
 		int color = (meta & 240) / 16;
-		int pattern = (meta & 65280) / 256;
+		int pattern = (meta & 3328) / 256;
 		switch(stoneType) {
 		default:
 		case 0:
@@ -129,25 +132,34 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 			return TownCraft.stoneCracked.getIcon(side, color);
 		case 3:
 			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
+		case 4:
+			return TownCraft.stoneBrickPillar.get
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int position = (meta & 12) / 4;
-		boolean isFull = (meta & 1) == 1;
-		int pattern = (meta & 65280) / 256;
+		int position = meta & 7;
+		boolean isFull = (meta & 8) == 1;
+		int pattern = (meta & 3328) / 256;
 		switch(stoneType) {
 		default:
 		case 0:
 		case 1:
+		case 4:
 			return null;
 		case 2:
 			return ((BlockOverlay) TownCraft.stoneMossy).getBlockOverlayTexture(side, 0);
 		case 3:
 			return ((BlockOverlay) TownCraft.stoneBrick).getBlockOverlayTexture(side, pattern);
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister iconRegister) {
+		stoneBrickSmoothSide = iconRegister.registerIcon("towncraft:stoneBrickSmoothSide");
 	}
 
 	@Override

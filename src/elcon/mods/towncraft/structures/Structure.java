@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class Structure {
@@ -30,8 +29,30 @@ public class Structure {
 		this.name = name;
 	}
 	
+	public void setMinSize(int sizeX, int sizeY, int sizeZ) {
+		minSizeX = sizeX;
+		minSizeY = sizeY;
+		minSizeZ = sizeZ;
+	}
+	
+	public void setMaxSize(int sizeX, int sizeY, int sizeZ) {
+		maxSizeX = sizeX;
+		maxSizeY = sizeY;
+		maxSizeZ = sizeZ;
+	}
+	
+	public void setMinMaxComponents(int minComponentCount, int maxComponentCount) {
+		this.minComponentCount = minComponentCount;
+		this.maxComponentCount = maxComponentCount;
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
-		
+		name = nbt.getString("Name");
+		setMinSize(nbt.getInteger("MinSizeX"), nbt.getInteger("MinSizeY"), nbt.getInteger("MinSizeZ"));
+		setMaxSize(nbt.getInteger("MaxSizeX"), nbt.getInteger("MaxSizeY"), nbt.getInteger("MaxSizeZ"));
+		setMinMaxComponents(nbt.getInteger("MinComponentCount"), nbt.getInteger("MaxComponentCount"));
+		components.clear();
+		startComponent = nbt.getString("StartComponent");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -46,10 +67,6 @@ public class Structure {
 		nbt.setInteger("MinComponentCount", minComponentCount);
 		nbt.setInteger("MaxComponentCount", maxComponentCount);
 		
-		NBTTagList list = new NBTTagList();
-		for(BiomeGenBase biome : spawnableBiomes) {
-			list.appendTag(new NBTString());
-		}
-		nbt.setTag("SpawnableBiomes", list);
+		nbt.setString("StartComponent", startComponent);
 	}
 }

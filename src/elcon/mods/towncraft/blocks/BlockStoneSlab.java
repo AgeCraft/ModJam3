@@ -103,7 +103,6 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	public Icon getBlockOverlayTexture(int side, int meta) {
 		int type = (meta & 12) / 4;
 		int pattern = (meta & 65280) / 256;
-		System.out.println(meta + " " + type);
 		switch(type) {
 		default:
 		case 0:

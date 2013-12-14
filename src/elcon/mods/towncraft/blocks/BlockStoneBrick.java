@@ -75,7 +75,7 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 				icons[i] = iconRegister.registerIcon("towncraft:stoneBrick" + TCUtil.firstUpperCase(types[i]));
 			}
 		}
-		overlayMossy = iconRegister.registerIcon("towncraft:stoneBrickMossy");
+		overlayMossy = iconRegister.registerIcon("towncraft:stoneBrickMossyOverlay");
 	}
 	
 	@Override

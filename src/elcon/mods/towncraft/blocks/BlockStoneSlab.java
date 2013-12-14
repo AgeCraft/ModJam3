@@ -62,7 +62,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	public int getBlockRotation(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
-		boolean isFull = (meta & 8) == 1;
+		boolean isFull = ((meta & 8) / 8) == 1;
 		if(isFull) {
 			return 0;
 		}
@@ -93,8 +93,10 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
-		boolean isFull = (meta & 8) == 1;
+		boolean isFull = ((meta & 8) / 8) == 1;
+		System.out.println(((meta & 8) / 8));
 		if(isFull) {
+			System.out.println("YUP");
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			return;
 		}
@@ -167,7 +169,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
 		int position = meta & 7;
-		boolean isFull = (meta & 8) == 1;
+		boolean isFull = ((meta & 8) / 8) == 1;
 		int color = (meta & 240) / 16;
 		int pattern = (meta & 1792) / 256;
 		Icon iconTop;

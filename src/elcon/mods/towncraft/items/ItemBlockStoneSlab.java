@@ -14,12 +14,11 @@ public class ItemBlockStoneSlab extends ItemBlockExtendedMetadata {
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-		if(Block.blocksList[world.getBlockId(x, y, z)] instanceof BlockStoneSlab && (world.getBlockMetadata(x, y, z) & 8) == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) | 8, 3);
+		if(Block.blocksList[world.getBlockId(x, y, z)] instanceof BlockStoneSlab && ((getMetadata(world, x, y, z) & 8) / 8) == 0) {
+			setMetadata(world, x, y, z, getMetadata(world, x, y, z) | 8);
+			world.markBlockForUpdate(x, y, z);
 			stack.stackSize--;
-			if(stack.stackSize <= 0) {
-				stack = null;
-			}
+			return true;
 		} else {
 			return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 		}

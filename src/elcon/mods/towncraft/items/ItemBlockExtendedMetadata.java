@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -73,5 +74,20 @@ public class ItemBlockExtendedMetadata extends ItemBlock {
 			block.onPostBlockPlaced(world, x, y, z, meta);
 		}
 		return true;
+	}
+	
+	public int getMetadata(IBlockAccess blockAccess, int x, int y, int z) {
+		TileEntity t = blockAccess.getBlockTileEntity(x, y, z);
+		if(t != null && t instanceof TileEntityMetadata) {
+			return ((TileEntityMetadata) t).getTileMetadata();
+		}
+		return 0;
+	}
+	
+	public void setMetadata(World world, int x, int y, int z, int meta) {
+		TileEntity t = world.getBlockTileEntity(x, y, z);
+		if(t != null && t instanceof TileEntityMetadata) {
+			((TileEntityMetadata) t).setTileMetadata(meta);
+		}
 	}
 }

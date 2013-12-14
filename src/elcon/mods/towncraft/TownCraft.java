@@ -21,6 +21,7 @@ import elcon.mods.towncraft.blocks.BlockStoneSlab;
 import elcon.mods.towncraft.items.ItemBlockExtendedMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadataOverlay;
+import elcon.mods.towncraft.items.ItemBlockStoneSlab;
 import elcon.mods.towncraft.tileentities.TileEntityExtended;
 import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
@@ -85,19 +86,19 @@ public class TownCraft {
 
 		// register blocks
 		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
-		GameRegistry.registerBlock(stoneSlab, ItemBlockExtendedMetadata.class, "TC_stoneSlab");
+		GameRegistry.registerBlock(stoneSlab, ItemBlockStoneSlab.class, "TC_stoneSlab");
 		//GameRegistry.registerBlock(stoneStairs, ItemBlockExtendedMetadata.class, "TC_stoneStairs");
 		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadata.class, "TC_stoneCracked");
-		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockExtendedMetadata.class, "TC_stoneCrackedSlab");
+		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockStoneSlab.class, "TC_stoneCrackedSlab");
 		//GameRegistry.registerBlock(stoneCrackedStairs, ItemBlockExtendedMetadata.class, "TC_stoneCrackedStairs");
 		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadataOverlay.class, "TC_stoneMossy");
-		GameRegistry.registerBlock(stoneMossySlab, ItemBlockExtendedMetadata.class, "TC_stoneMossySlab");
+		GameRegistry.registerBlock(stoneMossySlab, ItemBlockStoneSlab.class, "TC_stoneMossySlab");
 		//GameRegistry.registerBlock(stoneMossyStairs, ItemBlockExtendedMetadata.class, "TC_stoneMossyStairs");
 		GameRegistry.registerBlock(stoneBrick, ItemBlockExtendedMetadata.class, "TC_stoneBrick");
-		GameRegistry.registerBlock(stoneBrickSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickSlab");
+		GameRegistry.registerBlock(stoneBrickSlab, ItemBlockStoneSlab.class, "TC_stoneBrickSlab");
 		//GameRegistry.registerBlock(stoneBrickStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickStairs");
 		GameRegistry.registerBlock(stoneBrickPillar, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillar");
-		GameRegistry.registerBlock(stoneBrickPillarSlab, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillarSlab");
+		GameRegistry.registerBlock(stoneBrickPillarSlab, ItemBlockStoneSlab.class, "TC_stoneBrickPillarSlab");
 		//GameRegistry.registerBlock(stoneBrickPillarStairs, ItemBlockExtendedMetadata.class, "TC_stoneBrickPillarStairs");
 
 		// register tile entities

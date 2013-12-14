@@ -60,14 +60,29 @@ public class StructureGenerator {
 		for(StructureComponent component : structure.components.values()) {
 			componentOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
 		}
+		generateComponent(structure.components.get(structure.startComponent), 0, 0, 0);
 	}
 	
 	public void generateComponent(StructureComponent component, int x, int y, int z) {
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
-			ArrayList<StructureComponent> choosableComponents = new ArrayList<StructureComponent>();
+			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
+			ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();
+			choosableComponents.addAll(component.getAdjacentComponents(direction));
 			boolean proceed = false;
 			while(!proceed) {
-				
+				StructureAdjacentComponent adjacentComponent = choosableComponents.get(random.nextInt(choosableComponents.size()));
+				StructureComponent adjacentComponentBase = structure.components.get(adjacentComponent.name);
+				if(random.nextFloat() <= adjacentComponent.chance) {
+					int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX;
+					int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY;
+					int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
+					AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
+					if(canGenerate(box)) {
+						//make component instance and add it to lists
+					} else {
+						choosableComponents.remove(adjacentComponent);
+					}
+				}
 			}
 		}
 	}

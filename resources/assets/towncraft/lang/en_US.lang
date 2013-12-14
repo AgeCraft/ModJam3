@@ -10,7 +10,8 @@ tile.TC_stoneBrick.small.name=Small Stone Brick
 tile.TC_stoneBrick.circle.name=Circular Stone Brick
 tile.TC_stoneBrick.creeper.name=Stone Brick Creeper
 tile.TC_stoneBrick.chiseled.name=Chiseled Stone Brick 
-tile.TC_stoneBrick.pillar.name=Stone Brick Pillar
+tile.TC_stoneBrick.smooth.name=Smooth Stone Brick
+tile.TC_stoneBrickPillar.name=Stone Brick Pillar
 
 tile.TC_stoneSlab.name=Slab
 tile.TC_stoneStairs.name=Stairs

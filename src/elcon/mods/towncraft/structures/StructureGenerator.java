@@ -59,7 +59,7 @@ public class StructureGenerator {
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
 		boundingBox = AxisAlignedBB.getBoundingBox(-sizeX / 2, -sizeY / 2, -sizeZ / 2, sizeX / 2, sizeY / 2, sizeZ / 2);
-		componentCount = 1 + structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
+		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		
 		TCLog.info("[Structures] Structure size: " + TCUtil.coordsToString(sizeX, sizeY, sizeZ) + " with " + componentCount + " components");
 		
@@ -72,9 +72,19 @@ public class StructureGenerator {
 		for(StructureComponent component : structure.components.values()) {
 			componentMaxOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
 			componentOccurrences.put(component.name, 0);
-			TCLog.info("                " + componentMaxOccurrences.get(component.name) + " x " + component.name);
+			TCLog.info("            " + componentMaxOccurrences.get(component.name) + " x " + component.name);
 		}
-		generateComponent(structure.components.get(structure.startComponent), 0, 0, 0, null);
+		
+		StructureComponent startComponent = structure.components.get(structure.startComponent);
+		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(0, 0, 0, startComponent.sizeX, startComponent.sizeY, startComponent.sizeZ);
+		boundingBoxes.add(box);
+		StructureComponentInstance instance = new StructureComponentInstance(structure.name, startComponent.name);
+		instance.boundingBox = box.copy().addCoord(this.x, this.y, this.z);
+		instance.setPosition(this.x, this.y, this.z);
+		componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
+		structureInstance.components.add(instance);
+		TCLog.info("[Structures] Added component " + instance.name + " at " + TCUtil.coordsToString(0, 0, 0));
+		generateComponent(startComponent, 0, 0, 0, null);
 	}
 	
 	public void generateComponent(StructureComponent component, int x, int y, int z, StructureComponentInstance previousComponent) {
@@ -101,7 +111,7 @@ public class StructureGenerator {
 								boundingBoxes.add(box);
 								StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);
 								instance.boundingBox = box.copy().addCoord(this.x, this.y, this.z);
-								instance.setPosition(this.x + xx, this.y + yy, this.y + zz);
+								instance.setPosition(this.x + xx, this.y + yy, this.z + zz);
 								instance.neighbors[ForgeDirection.OPPOSITES[direction.ordinal()]] = previousComponent;
 								componentOccurrences.put(instance.name, componentOccurrences.get(instance.name) + 1);
 								structureInstance.components.add(instance);
@@ -122,7 +132,9 @@ public class StructureGenerator {
 	}
 	
 	public void generateInWorld() {
-		
+		for(StructureComponentInstance component : structureInstance.components) {
+			structure.components.get(component.name).generate(world, component.x, component.y, component.z);
+		}
 	}
 	
 	public boolean canGenerate(AxisAlignedBB box) {

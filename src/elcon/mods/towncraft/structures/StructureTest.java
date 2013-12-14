@@ -13,7 +13,7 @@ public class StructureTest extends Structure {
 		startComponent = "component1";
 		StructureComponent component1 = new StructureComponent("component1");
 		component1.setSize(4, 4, 4);
-		component1.setMinMaxOccurrences(0, 10);
+		component1.setMinMaxOccurrences(1, 10);
 		for(int i = 0; i < 64; i++) {
 			component1.blockIDs[i] = Block.cloth.blockID;
 			component1.blockMetadata[i] = (byte) random.nextInt(16);
@@ -23,7 +23,7 @@ public class StructureTest extends Structure {
 		
 		StructureComponent component2 = new StructureComponent("component2");
 		component2.setSize(4, 5, 6);
-		component2.setMinMaxOccurrences(0, 10);
+		component2.setMinMaxOccurrences(1, 10);
 		for(int i = 0; i < 120; i++) {
 			component2.blockIDs[i] = Block.blockDiamond.blockID;
 		}
@@ -33,7 +33,7 @@ public class StructureTest extends Structure {
 		
 		StructureComponent component3 = new StructureComponent("component3");
 		component3.setSize(9, 9, 9);
-		component3.setMinMaxOccurrences(0, 10);
+		component3.setMinMaxOccurrences(1, 10);
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				for(int k = 0; k < 9; k++) {
@@ -44,10 +44,5 @@ public class StructureTest extends Structure {
 			}
 		}
 		addComponent(component3);
-	}
-	
-	public StructureInstance generate() {
-		StructureGenerator generator = new StructureGenerator(null, 0, 0, 0, this);
-		return generator.structureInstance;
 	}
 }

@@ -22,8 +22,6 @@ import elcon.mods.towncraft.items.ItemBlockExtendedMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadata;
 import elcon.mods.towncraft.items.ItemBlockMetadataOverlay;
 import elcon.mods.towncraft.items.ItemBlockStoneSlab;
-import elcon.mods.towncraft.structures.StructureInstance;
-import elcon.mods.towncraft.structures.StructureTest;
 import elcon.mods.towncraft.tileentities.TileEntityExtended;
 import elcon.mods.towncraft.tileentities.TileEntityMetadata;
 
@@ -110,14 +108,14 @@ public class TownCraft {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		GameRegistry.registerWorldGenerator(new TCWorldGenerator());
+		
 		// register render information
 		proxy.registerRenderingInformation();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		StructureTest structureTest = new StructureTest("test");
-		StructureInstance instance = structureTest.generate();
-		TCLog.info("[Structures] Final: " + instance);
+		
 	}
 }

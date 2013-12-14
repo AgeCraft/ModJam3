@@ -103,13 +103,13 @@ public class StructureGenerator {
 							TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " too many occurrences");
 							choosableComponents.remove(adjacentComponent);
 						} else if(random.nextFloat() <= adjacentComponent.chance) {
-							int xx = x + (direction.offsetX > 0 ? component.sizeX : 0) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
-							int yy = y + (direction.offsetY > 0 ? component.sizeY : 0) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
-							int zz = z + (direction.offsetZ > 0 ? component.sizeZ : 0) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
+							int xx = x + (x < 0 ? 1 : 0) + (direction.offsetX > 0 ? component.sizeX : 0) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
+							int yy = y + (y < 0 ? 1 : 0) + (direction.offsetY > 0 ? component.sizeY : 0) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
+							int zz = z + (z < 0 ? 1 : 0) + (direction.offsetZ > 0 ? component.sizeZ : 0) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
 							//int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
 							//int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
 							//int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
-							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
+							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, zz + adjacentComponentBase.sizeZ);
 							if(canGenerate(box)) {
 								boundingBoxes.add(box);
 								StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);

@@ -123,6 +123,18 @@ public class StructureComponent {
 			TileEntity tile = TileEntity.createAndLoadEntity(tag);
 			setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 		}
+		
+		minOccurrences = nbt.getInteger("MinOccurrences");
+		maxOccurrences = nbt.getInteger("MaxOccurrences");
+		
+		for(int i = 0; i < requiredAdjacentComponents.length; i++) {
+			if(nbt.hasKey("RequiredAdjacentComponent" + Integer.toString(i))) {
+				NBTTagCompound tag = nbt.getCompoundTag("RequiredAdjacentComponent" + Integer.toString(i));
+				StructureAdjacentComponent component = new StructureAdjacentComponent(tag.getString("Name"));
+				component.readFromNBT(tag);
+				requiredAdjacentComponents[i] = component;
+			}
+		}
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -152,5 +164,19 @@ public class StructureComponent {
 		
 		nbt.setInteger("MinOccurrences", minOccurrences);
 		nbt.setInteger("MaxOccurrences", maxOccurrences);
+		
+		for(int i = 0; i < requiredAdjacentComponents.length; i++) {
+			if(requiredAdjacentComponents[i] != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				requiredAdjacentComponents[i].writeToNBT(tag);
+				nbt.setTag("RequiredAdjacentComponent" + Integer.toString(i), tag);
+			}
+		}
+		
+		for(int i = 0; i < adjacentComponents.length; i++) {
+			if(adjacentComponents[i].size() > 0) {
+				NBTTagList componentList = new NBTTagList();
+			}
+		}
 	}
 }

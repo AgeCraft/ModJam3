@@ -12,7 +12,9 @@ public class TCClientProxy extends TCCommonProxy {
 		//register block rendering handlers
 		TCConfig.BLOCK_OVERLAY_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
 		TCConfig.BLOCK_ROTATED_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
+		TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(TCConfig.BLOCK_OVERLAY_RENDER_ID, new TCBlockRenderingHandler());
 		RenderingRegistry.registerBlockHandler(TCConfig.BLOCK_ROTATED_RENDER_ID, new TCBlockRenderingHandler());
+		RenderingRegistry.registerBlockHandler(TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID, new TCBlockRenderingHandler());
 	}
 }

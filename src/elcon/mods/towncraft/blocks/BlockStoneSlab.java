@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
+public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlockRotated {
 
 	public int stoneType;
 	
@@ -58,8 +58,24 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	}
 	
 	@Override
+	public int getBlockRotation(IBlockAccess blockAccess, int x, int y, int z) {
+		int meta = getMetadata(blockAccess, x, y, z);
+		int position = meta & 7;
+		boolean isFull = (meta & 8) == 1;
+		if(isFull) {
+			return 0;
+		}
+		if(position == 2 || position == 3) {
+			return 1;
+		} else if(position == 4 || position == 5) {
+			return 2;
+		}
+		return 0;
+	}
+	
+	@Override
 	public int getDroppedMetadata(World world, int x, int y, int z, int meta, int fortune) {
-		return meta & 3568;
+		return meta & 2032;
 	}
 	
 	@Override
@@ -142,7 +158,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		int position = meta & 7;
 		boolean isFull = (meta & 8) == 1;
 		int color = (meta & 240) / 16;
-		int pattern = (meta & 3328) / 256;
+		int pattern = (meta & 1792) / 256;
 		switch(stoneType) {
 		default:
 		case 0:
@@ -151,7 +167,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		case 2:
 			return TownCraft.stoneCracked.getIcon(side, color);
 		case 3:
-			if(pattern == 7 && (side == 0 || side == 1)) {
+			if(pattern == 7 && side != 0 && side != 1) {
 				return stoneBrickSmoothSide;
 			}
 			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
@@ -163,7 +179,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int pattern = (meta & 3328) / 256;
+		int pattern = (meta & 1792) / 256;
 		switch(stoneType) {
 		default:
 		case 0:

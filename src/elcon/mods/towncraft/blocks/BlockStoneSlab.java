@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -28,6 +29,26 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		setStepSound(Block.soundStoneFootstep);
 		setCreativeTab(TownCraft.creativeTab);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+	}
+	
+	@Override
+	public String getLocalizedName(ItemStack stack) {
+		return StatCollector.translateToLocal(getUnlocalizedName(stack)) + " " + StatCollector.translateToLocal("tile.TC_stoneSlab.name");
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		switch(stoneType) {
+		default:
+		case 0:
+			return TownCraft.stone.getUnlocalizedName() + ".name";
+		case 1:
+			return TownCraft.stoneCracked.getUnlocalizedName() + ".name";
+		case 2:
+			return TownCraft.stoneMossy.getUnlocalizedName() + ".name";
+		case 3:
+			return "tile.TC_stoneBrick." + BlockStoneBrick.types[(stack.getItemDamage() & 65280) / 256] + ".name";
+		}
 	}
 
 	@Override

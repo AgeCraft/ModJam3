@@ -47,6 +47,7 @@ public class StructureGenerator {
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
 		
 		structureInstance.setSize(sizeX, sizeY, sizeZ);
+		structureInstance.boundingBox = AxisAlignedBB.getBoundingBox(x, y, z, x + sizeX, y + sizeY, z + sizeZ);
 		
 		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		structureInstance.componentCount = componentCount;
@@ -56,6 +57,10 @@ public class StructureGenerator {
 		for(StructureComponent component : structure.components.values()) {
 			componentOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
 		}
+	}
+	
+	public void generateComponent(StructureComponentInstance component, int x, int y, int z) {
+		
 	}
 	
 	public void generateInWorld() {

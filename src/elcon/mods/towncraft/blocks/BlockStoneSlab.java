@@ -66,6 +66,11 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
 		return stack.getItemDamage() | side;
 	}
+	
+	@Override
+	public void setBlockBoundsForItemRender() {
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+	}
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
@@ -84,14 +89,13 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 			return;
 		case 2:
-			setBlockBounds(0.5F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-			//setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+			setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
 			return;
 		case 3:
-			setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
 			return;
 		case 4:
-			//setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			return;
 		case 5:
 			setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
@@ -117,9 +121,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	
 	@Override
 	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
-		return false;
-		//int position = getMetadata(world, x, y, z) & 3;
-		//return position == 2 || (position == 0 && side == ForgeDirection.DOWN) || (position == 1 && side == ForgeDirection.UP);
+		return (getMetadata(world, x, y, z) & 8) == 1 || (getMetadata(world, x, y, z) & 7) == ForgeDirection.OPPOSITES[side.ordinal()];
 	}
 	
 	@Override
@@ -149,9 +151,12 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		case 2:
 			return TownCraft.stoneCracked.getIcon(side, color);
 		case 3:
+			if(pattern == 7 && (side == 0 || side == 1)) {
+				return stoneBrickSmoothSide;
+			}
 			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
 		case 4:
-			return side == 0 || side == 1 ? TownCraft.stoneBrickPillar.getIcon(side, color * 4) : stoneBrickSmoothSide;
+			return TownCraft.stoneBrickPillar.getIcon(side, color * 4);
 		}
 	}
 

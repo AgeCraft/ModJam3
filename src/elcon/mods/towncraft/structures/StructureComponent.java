@@ -101,8 +101,8 @@ public class StructureComponent {
 	
 	public void generate(World world, int x, int y, int z) {
 		for(int i = 0; i < sizeX; i++) {
-			for(int j = 0; j < sizeX; j++) {
-				for(int k = 0; k < sizeX; k++) {
+			for(int j = 0; j < sizeY; j++) {
+				for(int k = 0; k < sizeZ; k++) {
 					world.setBlock(x + i, y + j, z + k, getBlockID(i, j, k), getBlockMetadata(i, j, k), 2);
 					if(getBlockTileEntity(i, j, k) != null) {
 						world.setBlockTileEntity(x + i, y + j, z + k, TCUtil.copyTileEntity(getBlockTileEntity(i, j, k)));

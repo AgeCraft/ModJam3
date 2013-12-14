@@ -103,9 +103,9 @@ public class StructureGenerator {
 							TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " too many occurrences");
 							choosableComponents.remove(adjacentComponent);
 						} else if(random.nextFloat() <= adjacentComponent.chance) {
-							int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX;
-							int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY;
-							int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ;
+							int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
+							int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
+							int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
 							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, adjacentComponentBase.sizeZ);
 							if(canGenerate(box)) {
 								boundingBoxes.add(box);

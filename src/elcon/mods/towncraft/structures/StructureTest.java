@@ -7,8 +7,8 @@ public class StructureTest extends Structure {
 
 	public StructureTest(String name) {
 		super(name);
-		setMinSize(16, 16, 16);
-		setMaxSize(32, 32, 32);
+		setMinSize(32, 32, 32);
+		setMaxSize(64, 64, 64);
 		setMinMaxComponents(1, 10);
 		startComponent = "component1";
 		StructureComponent component1 = new StructureComponent("component1");
@@ -38,7 +38,7 @@ public class StructureTest extends Structure {
 			for(int j = 0; j < 9; j++) {
 				for(int k = 0; k < 9; k++) {
 					if((i == 0 || i == 8) && (j == 0 || j == 8) && (k == 0 || k == 8)) {
-						component1.blockIDs[i] = Block.stoneBrick.blockID;
+						component3.blockIDs[i + j * 9 + k * 81] = Block.stoneBrick.blockID;
 					}
 				}
 			}

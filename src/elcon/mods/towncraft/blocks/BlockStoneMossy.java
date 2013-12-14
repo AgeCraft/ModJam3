@@ -34,7 +34,7 @@ public class BlockStoneMossy extends BlockMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return TownCraft.stone.getIcon(side, meta);
+		return TownCraft.stoneCracked.getIcon(side, meta);
 	}
 	
 	@Override

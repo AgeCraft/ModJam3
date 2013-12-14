@@ -80,7 +80,7 @@ public class TownCraft {
 		GameRegistry.registerBlock(stone, ItemBlockMetadata.class, "TC_stone");
 		GameRegistry.registerBlock(stoneSlab, ItemBlockExtendedMetadata.class, "TC_stoneSlab");
 		//GameRegistry.registerBlock(stoneStairs, ItemBlockExtendedMetadata.class, "TC_stoneStairs");
-		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadataOverlay.class, "TC_stoneCracked");
+		GameRegistry.registerBlock(stoneCracked, ItemBlockMetadata.class, "TC_stoneCracked");
 		GameRegistry.registerBlock(stoneCrackedSlab, ItemBlockExtendedMetadata.class, "TC_stoneCrackedSlab");
 		//GameRegistry.registerBlock(stoneCrackedStairs, ItemBlockExtendedMetadata.class, "TC_stoneCrackedStairs");
 		GameRegistry.registerBlock(stoneMossy, ItemBlockMetadataOverlay.class, "TC_stoneMossy");

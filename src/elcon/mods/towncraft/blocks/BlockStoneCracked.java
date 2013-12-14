@@ -13,9 +13,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elcon.mods.towncraft.TownCraft;
 
-public class BlockStoneCracked extends BlockMetadataOverlay {
+public class BlockStoneCracked extends BlockMetadata {
 
-	private Icon overlay;
+	private Icon icon;
 	
 	public BlockStoneCracked(int id) {
 		super(id, Material.rock);
@@ -34,19 +34,13 @@ public class BlockStoneCracked extends BlockMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
-		return TownCraft.stone.getIcon(side, meta);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getBlockOverlayTexture(int side, int metadata) {
-		return overlay;
+		return icon;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		overlay = iconRegister.registerIcon("towncraft:stoneCracked");
+		icon = iconRegister.registerIcon("towncraft:stoneCracked");
 	}
 	
 	@Override

@@ -20,7 +20,6 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	public static final String[] types = new String[]{"normal", "cracked", "mossy", "small", "circle", "creeper", "chiseled", "pillar"};
 	
 	private Icon[] icons = new Icon[8];
-	private Icon overlayCracked;
 	private Icon overlayMossy;
 	
 	public BlockStoneBrick(int id) {
@@ -56,10 +55,7 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int type = meta & 7;
-		if(type == 1) {
-			return overlayCracked;
-		} else if(type == 2) {
+		if((meta & 7) == 2) {
 			return overlayMossy;
 		}
 		return null;
@@ -73,7 +69,6 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 				icons[i] = iconRegister.registerIcon("towncraft:stoneBrick" + TCUtil.firstUpperCase(types[i]));
 			}
 		}
-		overlayCracked = iconRegister.registerIcon("towncraft:stoneBrickCracked");
 		overlayMossy = iconRegister.registerIcon("towncraft:stoneBrickMossy");
 	}
 	

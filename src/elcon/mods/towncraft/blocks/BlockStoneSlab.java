@@ -71,7 +71,8 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return BlockStone.colors[blockAccess.getBlockMetadata(x, y, z)];
+		System.out.println(blockAccess.getBlockMetadata(x, y, z) + " --> " + ((blockAccess.getBlockMetadata(x, y, z) & 239) / 8));
+		return BlockStone.colors[(blockAccess.getBlockMetadata(x, y, z) & 239) / 8];
 	}
 
 	@Override

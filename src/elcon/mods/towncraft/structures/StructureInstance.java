@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -28,6 +29,18 @@ public class StructureInstance {
 		this.name = name;
 	}
 	
+	public void setPosition(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public void setSize(int sizeX, int sizeY, int sizeZ) {
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		this.sizeZ = sizeZ;
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
 		name = nbt.getString("Name");
 		x = nbt.getInteger("X");
@@ -38,9 +51,11 @@ public class StructureInstance {
 		sizeZ = nbt.getInteger("SizeZ");
 		
 		componentCount = nbt.getInteger("ComponentCount");
+		componentOccurrences.clear();
 		NBTTagList list = nbt.getTagList("");
-		for(String component : componentOccurrences.keySet()) {
-			
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagInt tag = (NBTTagInt) list.tagAt(i);
+			componentOccurrences.put(tag.getName(), tag.data);
 		}
 		
 		components.clear();
@@ -63,8 +78,13 @@ public class StructureInstance {
 		nbt.setInteger("SizeZ", sizeZ);
 		
 		nbt.setInteger("ComponentCount", componentCount);
-		
 		NBTTagList list = new NBTTagList();
+		for(String component : componentOccurrences.keySet()) {
+			list.appendTag(new NBTTagInt(component, componentOccurrences.get(component)));
+		}
+		nbt.setTag("ComponentOccurrences", list);
+		
+		list = new NBTTagList();
 		for(StructureComponentInstance component : components) {
 			NBTTagCompound tag = new NBTTagCompound();
 			component.writeToNBT(tag);

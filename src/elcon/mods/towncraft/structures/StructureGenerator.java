@@ -1,8 +1,10 @@
 package elcon.mods.towncraft.structures;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class StructureGenerator {
@@ -23,6 +25,8 @@ public class StructureGenerator {
 	public int componentCount;
 	public HashMap<String, Integer> componentOccurrences = new HashMap<String, Integer>();
 	
+	public LinkedList<AxisAlignedBB> boundingBoxes = new LinkedList<AxisAlignedBB>();
+	
 	public StructureGenerator(World world, int x, int y, int z, Structure structure) {
 		this.world = world;
 		this.random = world.rand;
@@ -30,6 +34,8 @@ public class StructureGenerator {
 		this.y = y;
 		this.z = z;
 		this.structure = structure;
+		structureInstance = new StructureInstance(structure.name);
+		structureInstance.setPosition(x, y, z);
 		generateSize();
 		generateComponents();
 		generateInWorld();
@@ -40,7 +46,10 @@ public class StructureGenerator {
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
 		
+		structureInstance.setSize(sizeX, sizeY, sizeZ);
+		
 		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
+		structureInstance.componentCount = componentCount;
 	}
 	
 	public void generateComponents() {

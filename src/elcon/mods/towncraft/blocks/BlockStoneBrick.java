@@ -42,8 +42,14 @@ public class BlockStoneBrick extends BlockExtendedMetadataOverlay {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int meta) {
+		return BlockStone.colors[(meta & 120) / 8];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return BlockStone.colors[blockAccess.getBlockMetadata(x, y, z)];
+		return BlockStone.colors[(getMetadata(blockAccess, x, y, z) & 120) / 8];
 	}
 	
 	@Override

@@ -27,6 +27,12 @@ public class BlockStoneCracked extends BlockMetadata {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int meta) {
+		return BlockStone.colors[meta];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
 		return BlockStone.colors[blockAccess.getBlockMetadata(x, y, z)];
 	}

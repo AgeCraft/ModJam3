@@ -67,6 +67,12 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		int position = getMetadata(world, x, y, z) & 3;
 		return position == 2 || (position == 0 && side == ForgeDirection.DOWN) || (position == 1 && side == ForgeDirection.UP);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int meta) {
+		return BlockStone.colors[(meta & 240) / 16];
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -83,9 +89,9 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 		switch(type) {
 		default:
 		case 0:
-		case 2:
 			return TownCraft.stone.getIcon(side, color);
 		case 1:
+		case 2:
 			return TownCraft.stoneCracked.getIcon(side, color);
 		case 3:
 			return TownCraft.stoneBrick.getIcon(side, pattern + color * 8);
@@ -95,8 +101,9 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockOverlayTexture(int side, int meta) {
-		int type = meta & 12;
-		int pattern = meta & 65280;
+		int type = (meta & 12) / 4;
+		int pattern = (meta & 65280) / 256;
+		System.out.println(meta + " " + type);
 		switch(type) {
 		default:
 		case 0:

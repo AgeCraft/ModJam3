@@ -248,7 +248,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		} else if(modelID == TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID) {
 			renderItemBlockOverlay((BlockOverlay) block, metadata, modelID, renderer);
 		} else if(modelID == TCConfig.BLOCK_STAIRS_RENDER_ID) {
-			renderItemBlockStairs(block, metadata, modelID, renderer);
+			renderItemBlockStairs((BlockStoneStairs) block, metadata, modelID, renderer);
 		}
 	}
 
@@ -364,11 +364,13 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tessellator.draw();
-
+		
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 
-	private void renderItemBlockStairs(Block block, int metadata, int modelID, RenderBlocks renderer) {
+	private void renderItemBlockStairs(BlockStoneStairs block, int metadata, int modelID, RenderBlocks renderer) {
+		Icon overlay = null;
+		
 		Tessellator tessellator = Tessellator.instance;
 		if(renderer.useInventoryTint) {
 			int color = block.getRenderColor(metadata);
@@ -387,6 +389,8 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 				renderer.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
 			}
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+			
+			//render block
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0.0F, -1.0F, 0.0F);
 			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
@@ -411,6 +415,57 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			tessellator.setNormal(1.0F, 0.0F, 0.0F);
 			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 			tessellator.draw();
+			
+			//render overlay
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, -1.0F, 0.0F);
+			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
+			overlay = block.getBlockOverlayTexture(0, metadata);
+			if(overlay != null) {
+				renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 1.0F, 0.0F);
+			renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
+			overlay = block.getBlockOverlayTexture(1, metadata);
+			if(overlay != null) {
+				renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 0.0F, -1.0F);
+			renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
+			overlay = block.getBlockOverlayTexture(2, metadata);
+			if(overlay != null) {
+				renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(0.0F, 0.0F, 1.0F);
+			renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
+			overlay = block.getBlockOverlayTexture(3, metadata);
+			if(overlay != null) {
+				renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+			renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
+			overlay = block.getBlockOverlayTexture(4, metadata);
+			if(overlay != null) {
+				renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setNormal(1.0F, 0.0F, 0.0F);
+			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
+			overlay = block.getBlockOverlayTexture(5, metadata);
+			if(overlay != null) {
+				renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, overlay);
+			}
+			tessellator.draw();
+			
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}		
 	}

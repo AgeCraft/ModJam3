@@ -12,7 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -22,6 +24,8 @@ import elcon.mods.towncraft.TownCraft;
 
 public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 
+	private static final int[][] rayTraceParts = new int[][] {{2, 6}, {3, 7}, {2, 3}, {6, 7}, {0, 4}, {1, 5}, {0, 1}, {4, 5}};
+	
 	public int stoneType;
 	public boolean doRayTrace;
 	public int rayTracePart;
@@ -94,80 +98,82 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 		float maxX = 1.0F;
 		float maxY = 1.0F;
 		float maxZ = 0.5F;
-		
 		if((meta & 4) != 0) {
 			minY = 0.0F;
 			maxY = 0.5F;
 		}
 		boolean flag = true;
-		int otherID;
 		int otherMeta;
 		int otherDirection;
 		if(direction == 0) {
 			minX = 0.5F;
 			maxZ = 1.0F;
-			otherID = blockAccess.getBlockId(x + 1, y, z);
-			otherMeta = blockAccess.getBlockMetadata(x + 1, y, z);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
-					maxZ = 0.5F;
-					flag = false;
-				} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
-					minZ = 0.5F;
-					flag = false;
+			if(isBlockStairsID(blockAccess.getBlockId(x + 1, y, z))) {
+				otherMeta = getMetadata(blockAccess, x + 1, y, z);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
+						maxZ = 0.5F;
+						flag = false;
+					} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
+						minZ = 0.5F;
+						flag = false;
+					}
 				}
 			}
 		} else if(direction == 1) {
 			maxX = 0.5F;
 			maxZ = 1.0F;
-			otherID = blockAccess.getBlockId(x - 1, y, z);
-			otherMeta = blockAccess.getBlockMetadata(x - 1, y, z);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
-					maxZ = 0.5F;
-					flag = false;
-				} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
-					minZ = 0.5F;
-					flag = false;
+			if(isBlockStairsID(blockAccess.getBlockId(x - 1, y, z))) {
+				otherMeta = getMetadata(blockAccess, x - 1, y, z);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
+						maxZ = 0.5F;
+						flag = false;
+					} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
+						minZ = 0.5F;
+						flag = false;
+					}
 				}
 			}
 		} else if(direction == 2) {
 			minZ = 0.5F;
 			maxZ = 1.0F;
-			otherID = blockAccess.getBlockId(x, y, z + 1);
-			otherMeta = blockAccess.getBlockMetadata(x, y, z + 1);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
-					maxX = 0.5F;
-					flag = false;
-				} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
-					minX = 0.5F;
-					flag = false;
+			if(isBlockStairsID(blockAccess.getBlockId(x, y, z + 1))) {
+				otherMeta = getMetadata(blockAccess, x, y, z + 1);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
+						maxX = 0.5F;
+						flag = false;
+					} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
+						minX = 0.5F;
+						flag = false;
+					}
 				}
 			}
 		} else if(direction == 3) {
-			otherID = blockAccess.getBlockId(x, y, z - 1);
-			otherMeta = blockAccess.getBlockMetadata(x, y, z - 1);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
-					maxX = 0.5F;
-					flag = false;
-				} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
-					minX = 0.5F;
-					flag = false;
+			if(isBlockStairsID(blockAccess.getBlockId(x, y, z - 1))) {
+				otherMeta = getMetadata(blockAccess, x, y, z - 1);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
+						maxX = 0.5F;
+						flag = false;
+					} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
+						minX = 0.5F;
+						flag = false;
+					}
 				}
 			}
 		}
 		setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 		return flag;
 	}
-	
-	public boolean setBoundingBox2(IBlockAccess blockAccess, int par2, int par3, int par4) {
-		int meta = blockAccess.getBlockMetadata(par2, par3, par4);
+
+	public boolean setBoundingBox2(IBlockAccess blockAccess, int x, int y, int z) {
+		int meta = blockAccess.getBlockMetadata(x, y, z);
 		int direction = meta & 3;
 		float minX = 0.0F;
 		float minY = 0.5F;
@@ -180,68 +186,70 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			maxY = 0.5F;
 		}
 		boolean flag = false;
-		int otherID;
 		int otherMeta;
 		int otherDirection;
 		if(direction == 0) {
-			otherID = blockAccess.getBlockId(par2 - 1, par3, par4);
-			otherMeta = blockAccess.getBlockMetadata(par2 - 1, par3, par4);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, par2, par3, par4 - 1, meta)) {
-					minZ = 0.0F;
-					maxZ = 0.5F;
-					flag = true;
-				} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, par2, par3, par4 + 1, meta)) {
-					minZ = 0.5F;
-					maxZ = 1.0F;
-					flag = true;
+			if(isBlockStairsID(blockAccess.getBlockId(x - 1, y, z))) {
+				otherMeta = getMetadata(blockAccess, x - 1, y, z);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
+						minZ = 0.0F;
+						maxZ = 0.5F;
+						flag = true;
+					} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
+						minZ = 0.5F;
+						maxZ = 1.0F;
+						flag = true;
+					}
 				}
 			}
 		} else if(direction == 1) {
-			otherID = blockAccess.getBlockId(par2 + 1, par3, par4);
-			otherMeta = blockAccess.getBlockMetadata(par2 + 1, par3, par4);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				minX = 0.5F;
-				maxX = 1.0F;
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, par2, par3, par4 - 1, meta)) {
-					minZ = 0.0F;
-					maxZ = 0.5F;
-					flag = true;
-				} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, par2, par3, par4 + 1, meta)) {
-					minZ = 0.5F;
-					maxZ = 1.0F;
-					flag = true;
+			if(isBlockStairsID(blockAccess.getBlockId(x + 1, y, z))) {
+				otherMeta = getMetadata(blockAccess, x + 1, y, z);
+				if((meta & 4) == (otherMeta & 4)) {
+					minX = 0.5F;
+					maxX = 1.0F;
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
+						minZ = 0.0F;
+						maxZ = 0.5F;
+						flag = true;
+					} else if(otherDirection == 2 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
+						minZ = 0.5F;
+						maxZ = 1.0F;
+						flag = true;
+					}
 				}
 			}
 		} else if(direction == 2) {
-			otherID = blockAccess.getBlockId(par2, par3, par4 - 1);
-			otherMeta = blockAccess.getBlockMetadata(par2, par3, par4 - 1);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				minZ = 0.0F;
-				maxZ = 0.5F;
-				otherDirection = otherMeta & 3;
-				if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, par2 - 1, par3, par4, meta)) {
-					flag = true;
-				} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, par2 + 1, par3, par4, meta)) {
-					minX = 0.5F;
-					maxX = 1.0F;
-					flag = true;
+			if(isBlockStairsID(blockAccess.getBlockId(x, y, z - 1))) {
+				otherMeta = getMetadata(blockAccess, x, y, z - 1);
+				if((meta & 4) == (otherMeta & 4)) {
+					minZ = 0.0F;
+					maxZ = 0.5F;
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
+						flag = true;
+					} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
+						minX = 0.5F;
+						maxX = 1.0F;
+						flag = true;
+					}
 				}
 			}
 		} else if(direction == 3) {
-			otherID = blockAccess.getBlockId(par2, par3, par4 + 1);
-			otherMeta = blockAccess.getBlockMetadata(par2, par3, par4 + 1);
-			if(isBlockStairsID(otherID) && (meta & 4) == (otherMeta & 4)) {
-				otherDirection = otherMeta & 3;
-
-				if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, par2 - 1, par3, par4, meta)) {
-					flag = true;
-				} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, par2 + 1, par3, par4, meta)) {
-					minX = 0.5F;
-					maxX = 1.0F;
-					flag = true;
+			if(isBlockStairsID(blockAccess.getBlockId(x, y, z + 1))) {
+				otherMeta = getMetadata(blockAccess, x, y, z + 1);
+				if((meta & 4) == (otherMeta & 4)) {
+					otherDirection = otherMeta & 3;
+					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
+						flag = true;
+					} else if(otherDirection == 0 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
+						minX = 0.5F;
+						maxX = 1.0F;
+						flag = true;
+					}
 				}
 			}
 		}
@@ -257,11 +265,56 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 		super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
 		boolean flag = setBoundingBox1(world, x, y, z);
 		super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
-
 		if(flag && setBoundingBox2(world, x, y, z)) {
 			super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
 		}
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	@Override
+	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 vec1, Vec3 vec2) {
+		MovingObjectPosition[] mopArray = new MovingObjectPosition[8];
+		int meta = getMetadata(world, x, y, z);
+		int direction = meta & 3;
+		boolean isUpsideDown = (meta & 4) != 0;
+		int[] currentRayTraceParts = rayTraceParts[direction + (isUpsideDown ? 4 : 0)];
+		doRayTrace = true;
+		int a;
+		int b;
+		int c;
+		for(int i = 0; i < 8; ++i) {
+			rayTracePart = i;
+			int[] aint1 = currentRayTraceParts;
+			a = currentRayTraceParts.length;
+			for(b = 0; b < a; ++b) {
+				c = aint1[b];
+				if(c == i) {
+					;
+				}
+			}
+			mopArray[i] = super.collisionRayTrace(world, x, y, z, vec1, vec2);
+		}
+		int[] currentRayTraceParts2 = currentRayTraceParts;
+		int d = currentRayTraceParts.length;
+		for(a = 0; a < d; ++a) {
+			b = currentRayTraceParts2[a];
+			mopArray[b] = null;
+		}
+		MovingObjectPosition mop1 = null;
+		double dist1 = 0.0D;
+		MovingObjectPosition[] mopArray2 = mopArray;
+		c = mopArray.length;
+		for(int i = 0; i < c; ++i) {
+			MovingObjectPosition mop2 = mopArray2[i];
+			if(mop2 != null) {
+				double dist2 = mop2.hitVec.squareDistanceTo(vec2);
+				if(dist2 > dist1) {
+					mop1 = mop2;
+					dist1 = dist2;
+				}
+			}
+		}
+		return mop1;
 	}
 
 	@Override
@@ -304,6 +357,18 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	@Override
 	public int getRenderType() {
 		return TCConfig.BLOCK_STAIRS_RENDER_ID;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int meta) {
+		return BlockStone.colors[(meta & 120) / 8];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
+		return BlockStone.colors[(getMetadata(blockAccess, x, y, z) & 240) / 16];
 	}
 
 	@Override

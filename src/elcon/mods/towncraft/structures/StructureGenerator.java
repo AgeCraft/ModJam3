@@ -55,7 +55,7 @@ public class StructureGenerator {
 	}
 
 	public void generateSize() {
-		sizeX = structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
+		sizeX = structure.minSizeX == structure.maxSizeX ? structure.minSizeX : structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
 		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
 		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
 		boundingBox = AxisAlignedBB.getBoundingBox(-sizeX / 2, -sizeY / 2, -sizeZ / 2, sizeX / 2, sizeY / 2, sizeZ / 2);
@@ -70,7 +70,7 @@ public class StructureGenerator {
 	
 	public void generateComponents() {
 		for(StructureComponent component : structure.components.values()) {
-			componentMaxOccurrences.put(component.name, component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
+			componentMaxOccurrences.put(component.name, component.minOccurrences == component.maxOccurrences ? component.minOccurrences : component.minOccurrences + random.nextInt(component.maxOccurrences - component.minOccurrences));
 			componentOccurrences.put(component.name, 0);
 			TCLog.info("            " + componentMaxOccurrences.get(component.name) + " x " + component.name);
 		}
@@ -103,13 +103,10 @@ public class StructureGenerator {
 							TCLog.info("[Structures] Can't place component " + adjacentComponentBase.name + " too many occurrences");
 							choosableComponents.remove(adjacentComponent);
 						} else if(random.nextFloat() <= adjacentComponent.chance) {
-							int xx = x + (x < 0 ? 1 : 0) + (direction.offsetX > 0 ? component.sizeX : 0) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
-							int yy = y + (y < 0 ? 1 : 0) + (direction.offsetY > 0 ? component.sizeY : 0) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
-							int zz = z + (z < 0 ? 1 : 0) + (direction.offsetZ > 0 ? component.sizeZ : 0) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
-							//int xx = x + (direction.offsetX * component.sizeX) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
-							//int yy = y + (direction.offsetY * component.sizeY) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
-							//int zz = z + (direction.offsetZ * component.sizeZ) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
-							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx + adjacentComponentBase.sizeX, yy + adjacentComponentBase.sizeY, zz + adjacentComponentBase.sizeZ);
+							int xx = x + (direction.offsetX > 0 ? component.sizeX : 0) + adjacentComponent.offsetX + (direction.offsetX < 0 ? -adjacentComponentBase.sizeX : 0);
+							int yy = y + (direction.offsetY > 0 ? component.sizeY : 0) + adjacentComponent.offsetY + (direction.offsetY < 0 ? -adjacentComponentBase.sizeY : 0);
+							int zz = z + (direction.offsetZ > 0 ? component.sizeZ : 0) + adjacentComponent.offsetZ + (direction.offsetZ < 0 ? -adjacentComponentBase.sizeZ : 0);
+							AxisAlignedBB box = AxisAlignedBB.getBoundingBox(xx, yy, zz, xx - (xx < 0 ? 1 : 0) + adjacentComponentBase.sizeX, yy - (yy < 0 ? 1 : 0) + adjacentComponentBase.sizeY, zz - (zz < 0 ? 1 : 0) + adjacentComponentBase.sizeZ);
 							if(canGenerate(box)) {
 								boundingBoxes.add(box);
 								StructureComponentInstance instance = new StructureComponentInstance(structure.name, adjacentComponentBase.name);

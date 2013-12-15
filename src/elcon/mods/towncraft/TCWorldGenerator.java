@@ -8,7 +8,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 import elcon.mods.towncraft.structures.Structure;
 import elcon.mods.towncraft.structures.StructureGenerator;
 import elcon.mods.towncraft.structures.StructureInstance;
-import elcon.mods.towncraft.structures.StructureTest;
 
 public class TCWorldGenerator implements IWorldGenerator {
 
@@ -22,10 +21,10 @@ public class TCWorldGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.dimensionId == 0 && chunkX == 0 && chunkZ == 0) {
+		/*if(world.provider.dimensionId == 0 && chunkX == 0 && chunkZ == 0) {
 			structure = new StructureTest("test");
 			structureGenerator = new StructureGenerator(world, chunkX * 16, 64, chunkZ * 16, structure);
 			structureInstance = structureGenerator.structureInstance;
-		}
+		}*/
 	}
 }

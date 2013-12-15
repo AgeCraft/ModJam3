@@ -222,6 +222,17 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderer.setRenderBoundsFromBlock(block);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
+		
+		block.setLowerBoundingBox(blockAccess, x, y, z);
+		renderer.setRenderBoundsFromBlock(block);
+		renderBlockOverlay(blockAccess, (BlockOverlay) block, x, y, z, renderer);
+		flag = block.setBoundingBox1(blockAccess, x, y, z);
+		renderer.setRenderBoundsFromBlock(block);
+		renderBlockOverlay(blockAccess, (BlockOverlay) block, x, y, z, renderer);
+		if(flag && block.setBoundingBox2(blockAccess, x, y, z)) {
+			renderer.setRenderBoundsFromBlock(block);
+			renderBlockOverlay(blockAccess, (BlockOverlay) block, x, y, z, renderer);
+		}
 		return true;
 	}
 

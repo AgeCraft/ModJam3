@@ -74,7 +74,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	}
 
 	public void setLowerBoundingBox(IBlockAccess blockAccess, int x, int y, int z) {
-		if(getMetadata(blockAccess, x, y, z) != 0) {
+		if((getMetadata(blockAccess, x, y, z) & 4) != 0) {
 			setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
 		} else {
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
@@ -326,7 +326,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	@Override
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
 		int rotation = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int isUpsideDown = yy > 0.5D ? 4 : 0;
+		int isUpsideDown = side == 1 ? 0 : (side == 0 ? 4 : (yy > 0.5F ? 4 : 0));
 		switch(rotation) {
 		case 0:
 			return stack.getItemDamage() | isUpsideDown | 2;

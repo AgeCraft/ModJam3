@@ -27,6 +27,7 @@ public class StructureGenerator {
 	public int sizeY;
 	public int sizeZ;
 	
+	public int componentMaxCount;
 	public int componentCount;
 	public HashMap<String, Integer> componentMaxOccurrences = new HashMap<String, Integer>();
 	public HashMap<String, Integer> componentOccurrences = new HashMap<String, Integer>();
@@ -56,16 +57,16 @@ public class StructureGenerator {
 
 	public void generateSize() {
 		sizeX = structure.minSizeX == structure.maxSizeX ? structure.minSizeX : structure.minSizeX + random.nextInt(structure.maxSizeX - structure.minSizeX);
-		sizeY = structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
-		sizeZ = structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
+		sizeY = structure.minSizeY == structure.maxSizeY ? structure.minSizeY : structure.minSizeY + random.nextInt(structure.maxSizeY - structure.minSizeY);
+		sizeZ = structure.minSizeZ == structure.maxSizeZ ? structure.minSizeZ : structure.minSizeZ + random.nextInt(structure.maxSizeZ - structure.minSizeZ);
 		boundingBox = AxisAlignedBB.getBoundingBox(-sizeX / 2, -sizeY / 2, -sizeZ / 2, sizeX / 2, sizeY / 2, sizeZ / 2);
-		componentCount = structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
+		componentMaxCount = structure.minComponentCount == structure.maxComponentCount ? structure.minComponentCount : structure.minComponentCount + random.nextInt(structure.maxComponentCount - structure.minComponentCount);
 		
-		TCLog.info("[Structures] Structure size: " + TCUtil.coordsToString(sizeX, sizeY, sizeZ) + " with " + componentCount + " components");
+		TCLog.info("[Structures] Structure size: " + TCUtil.coordsToString(sizeX, sizeY, sizeZ) + " with " + componentMaxCount + " components");
 		
 		structureInstance.setSize(sizeX, sizeY, sizeZ);
 		structureInstance.boundingBox = boundingBox.copy().addCoord(x, y, z);
-		structureInstance.componentCount = componentCount;
+		structureInstance.componentCount = componentMaxCount;
 	}
 	
 	public void generateComponents() {
@@ -90,6 +91,10 @@ public class StructureGenerator {
 	public void generateComponent(StructureComponent component, int x, int y, int z, StructureComponentInstance previousComponent) {
 		TCLog.info("[Structures] Generating component " + component.name + " at " + TCUtil.coordsToString(x, y, z));
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
+			if(componentCount >= componentMaxCount) {
+				TCLog.info("[Structures] Too many components");
+				return;
+			}
 			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
 			if(component.getAdjacentComponents(direction).size() > 0) {
 				ArrayList<StructureAdjacentComponent> choosableComponents = new ArrayList<StructureAdjacentComponent>();

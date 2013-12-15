@@ -23,7 +23,6 @@ public class StructureComponent {
 	public int minOccurrences;
 	public int maxOccurrences;
 	
-	public StructureAdjacentComponent[] requiredAdjacentComponents = new StructureAdjacentComponent[ForgeDirection.VALID_DIRECTIONS.length];
 	public LinkedList<StructureAdjacentComponent>[] adjacentComponents = new LinkedList[ForgeDirection.VALID_DIRECTIONS.length];
 	
 	public StructureComponent(String name) {
@@ -78,15 +77,7 @@ public class StructureComponent {
 		this.minOccurrences = minOccurrences;
 		this.maxOccurrences = maxOccurrences;
 	}
-	
-	public StructureAdjacentComponent getRequiredAdjacentComponent(ForgeDirection direction) {
-		return requiredAdjacentComponents[direction.ordinal()];
-	}
-	
-	public void setRequiredAdjacentComponent(ForgeDirection direction, StructureAdjacentComponent component) {
-		requiredAdjacentComponents[direction.ordinal()] = component;
-	}
-	
+
 	public List<StructureAdjacentComponent> getAdjacentComponents(ForgeDirection direction) {
 		return adjacentComponents[direction.ordinal()];
 	}
@@ -126,15 +117,6 @@ public class StructureComponent {
 		
 		minOccurrences = nbt.getInteger("MinOccurrences");
 		maxOccurrences = nbt.getInteger("MaxOccurrences");
-		
-		for(int i = 0; i < requiredAdjacentComponents.length; i++) {
-			if(nbt.hasKey("RequiredAdjacentComponent" + Integer.toString(i))) {
-				NBTTagCompound tag = nbt.getCompoundTag("RequiredAdjacentComponent" + Integer.toString(i));
-				StructureAdjacentComponent component = new StructureAdjacentComponent(tag.getString("Name"));
-				component.readFromNBT(tag);
-				requiredAdjacentComponents[i] = component;
-			}
-		}
 		
 		for(int i = 0; i < adjacentComponents.length; i++) {
 			adjacentComponents[i].clear();
@@ -178,20 +160,12 @@ public class StructureComponent {
 		nbt.setInteger("MinOccurrences", minOccurrences);
 		nbt.setInteger("MaxOccurrences", maxOccurrences);
 		
-		for(int i = 0; i < requiredAdjacentComponents.length; i++) {
-			if(requiredAdjacentComponents[i] != null) {
-				NBTTagCompound tag = new NBTTagCompound();
-				requiredAdjacentComponents[i].writeToNBT(tag);
-				nbt.setTag("RequiredAdjacentComponent" + Integer.toString(i), tag);
-			}
-		}
-		
 		for(int i = 0; i < adjacentComponents.length; i++) {
 			if(adjacentComponents[i].size() > 0) {
 				NBTTagList componentList = new NBTTagList();
 				for(StructureAdjacentComponent component : adjacentComponents[i]) {
 					NBTTagCompound tag = new NBTTagCompound();
-					requiredAdjacentComponents[i].writeToNBT(tag);
+					component.writeToNBT(tag);
 					componentList.appendTag(tag);
 				}
 				nbt.setTag("AdjacentComponents" + Integer.toString(i), componentList);

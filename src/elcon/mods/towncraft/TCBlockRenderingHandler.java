@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import elcon.mods.towncraft.blocks.BlockOverlay;
+import elcon.mods.towncraft.blocks.BlockStoneStairs;
 import elcon.mods.towncraft.blocks.IBlockRotated;
 
 public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
@@ -30,7 +31,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		} else if(modelID == TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID) {
 			renderBlockOverlayRotated(blockAccess, block, x, y, z, renderer);
 		} else if(modelID == TCConfig.BLOCK_STAIRS_RENDER_ID) {
-			renderBlockStairs(blockAccess, block, x, y, z, renderer);
+			renderBlockStairs(blockAccess, (BlockStoneStairs) block, x, y, z, renderer);
 		}
 		return false;
 	}
@@ -187,7 +188,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		renderer.uvRotateBottom = 0;
 		return flag;
 	}
-	
+
 	private boolean renderBlockOverlayRotated(IBlockAccess blockAccess, Block block, int x, int y, int z, RenderBlocks renderer) {
 		int direction = ((IBlockRotated) block).getBlockRotation(blockAccess, x, y, z) & 3;
 		if(direction == 2) {
@@ -209,8 +210,18 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		renderer.uvRotateBottom = 0;
 		return flag;
 	}
-	
-	private boolean renderBlockStairs(IBlockAccess blockAccess, Block block, int x, int y, int z, RenderBlocks renderer) {
+
+	private boolean renderBlockStairs(IBlockAccess blockAccess, BlockStoneStairs block, int x, int y, int z, RenderBlocks renderer) {
+		block.setLowerBoundingBox(blockAccess, x, y, z);
+		renderer.setRenderBoundsFromBlock(block);
+		renderer.renderStandardBlock(block, x, y, z);
+		boolean flag = block.setBoundingBox1(blockAccess, x, y, z);
+		renderer.setRenderBoundsFromBlock(block);
+		renderer.renderStandardBlock(block, x, y, z);
+		if(flag && block.setBoundingBox2(blockAccess, x, y, z)) {
+			renderer.setRenderBoundsFromBlock(block);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
 		return true;
 	}
 
@@ -226,7 +237,7 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		} else if(modelID == TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID) {
 			renderItemBlockOverlay((BlockOverlay) block, metadata, modelID, renderer);
 		} else if(modelID == TCConfig.BLOCK_STAIRS_RENDER_ID) {
-			
+
 		}
 	}
 

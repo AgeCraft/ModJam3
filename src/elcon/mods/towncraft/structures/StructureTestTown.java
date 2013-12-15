@@ -9,7 +9,7 @@ public class StructureTestTown extends Structure {
 		super(name);
 		setMinSize(96, 96, 96);
 		setMaxSize(96, 96, 96);
-		setMinMaxComponents(10, 20);
+		setMinMaxComponents(30, 50);
 		startComponent = "townHall";
 		
 		StructureComponent townHall = new StructureComponent("townHall");
@@ -32,12 +32,14 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent roadZ = new StructureComponent("roadZ");
 		roadZ.setSize(3, 1, 10);
-		roadZ.setMinMaxOccurrences(10, 10);
+		roadZ.setMinMaxOccurrences(20, 20);
 		for(int i = 0; i < 30; i++) {
 			roadZ.blockIDs[i] = Block.dirt.blockID;
 		}
 		roadZ.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("roadZ", 0.5F));
 		roadZ.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("roadZ", 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("roadX", 0.25F));
+		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("roadX", 0.25F));
 		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house1", 0, 0, 4, 0.5F));
 		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house2", 0, 0, 4, 0.5F));
 		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("house1", 0, 0, 4, 0.5F));
@@ -46,12 +48,14 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent roadX = new StructureComponent("roadX");
 		roadX.setSize(10, 1, 3);
-		roadX.setMinMaxOccurrences(10, 10);
+		roadX.setMinMaxOccurrences(20, 20);
 		for(int i = 0; i < 30; i++) {
 			roadX.blockIDs[i] = Block.dirt.blockID;
 		}
 		roadX.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("roadX", 0.5F));
 		roadX.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("roadX", 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("roadZ", 0.25F));
+		roadX.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("roadZ", 0.25F));
 		roadX.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("house1", 4, 0, 0, 0.5F));
 		roadX.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("house2", 4, 0, 0, 0.5F));
 		roadX.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("house1", 4, 0, 0, 0.5F));
@@ -60,7 +64,7 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent house1 = new StructureComponent("house1");
 		house1.setSize(5, 6, 5);
-		house1.setMinMaxOccurrences(3, 5);
+		house1.setMinMaxOccurrences(20, 30);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {
@@ -74,7 +78,7 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent house2 = new StructureComponent("house2");
 		house2.setSize(5, 6, 5);
-		house2.setMinMaxOccurrences(3, 5);
+		house2.setMinMaxOccurrences(20, 30);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {

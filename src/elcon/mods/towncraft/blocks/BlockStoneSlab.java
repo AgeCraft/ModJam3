@@ -32,6 +32,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 		this.stoneType = stoneType;
 		setHardness(stoneType == 2 || stoneType == 3 ? 2.0F : 1.5F);
 		setResistance(10.0F);
+		setLightOpacity(255);
 		setStepSound(Block.soundStoneFootstep);
 		setCreativeTab(TownCraft.creativeTab);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);

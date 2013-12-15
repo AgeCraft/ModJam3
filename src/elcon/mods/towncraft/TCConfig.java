@@ -11,6 +11,7 @@ public class TCConfig {
 	public static int BLOCK_OVERLAY_RENDER_ID = 0;
 	public static int BLOCK_ROTATED_RENDER_ID = 0;
 	public static int BLOCK_OVERLAY_ROTATED_RENDER_ID = 0;
+	public static int BLOCK_STAIRS_RENDER_ID = 0;
 	
 	public static int blockStoneID = 4050;
 	public static int blockStoneSlabID = 4051;

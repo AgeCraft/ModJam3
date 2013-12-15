@@ -29,6 +29,8 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderBlockRotated(blockAccess, (IBlockRotated) block, x, y, z, renderer);
 		} else if(modelID == TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID) {
 			renderBlockOverlayRotated(blockAccess, block, x, y, z, renderer);
+		} else if(modelID == TCConfig.BLOCK_STAIRS_RENDER_ID) {
+			renderBlockStairs(blockAccess, block, x, y, z, renderer);
 		}
 		return false;
 	}
@@ -207,6 +209,10 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		renderer.uvRotateBottom = 0;
 		return flag;
 	}
+	
+	private boolean renderBlockStairs(IBlockAccess blockAccess, Block block, int x, int y, int z, RenderBlocks renderer) {
+		return true;
+	}
 
 	public boolean shouldRender3DInInventory() {
 		return true;
@@ -219,6 +225,8 @@ public class TCBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 			renderItemBlock(block, metadata, modelID, renderer);
 		} else if(modelID == TCConfig.BLOCK_OVERLAY_ROTATED_RENDER_ID) {
 			renderItemBlockOverlay((BlockOverlay) block, metadata, modelID, renderer);
+		} else if(modelID == TCConfig.BLOCK_STAIRS_RENDER_ID) {
+			
 		}
 	}
 

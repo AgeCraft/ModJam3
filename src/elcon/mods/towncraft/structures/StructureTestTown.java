@@ -7,7 +7,7 @@ public class StructureTestTown extends Structure {
 
 	public StructureTestTown(String name) {
 		super(name);
-		setMinSize(48, 48, 48);
+		setMinSize(96, 96, 96);
 		setMaxSize(96, 96, 96);
 		setMinMaxComponents(10, 20);
 		startComponent = "townHall";
@@ -24,10 +24,10 @@ public class StructureTestTown extends Structure {
 				}
 			}
 		}
-		townHall.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("roadZ", -4, 0, 0, 1.0F));
-		townHall.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("roadZ", -4, 0, 0, 1.0F));
-		townHall.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("roadX", 0, 0, -4, 1.0F));
-		townHall.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("roadX", 0, 0, -4, 1.0F));
+		townHall.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("roadZ", 4, 0, 0, 1.0F));
+		townHall.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("roadZ", 4, 0, 0, 1.0F));
+		townHall.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("roadX", 0, 0, 4, 1.0F));
+		townHall.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("roadX", 0, 0, 4, 1.0F));
 		addComponent(townHall);
 		
 		StructureComponent roadZ = new StructureComponent("roadZ");
@@ -36,10 +36,12 @@ public class StructureTestTown extends Structure {
 		for(int i = 0; i < 30; i++) {
 			roadZ.blockIDs[i] = Block.dirt.blockID;
 		}
-		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house1", 0, 0, 0, 0.5F));
-		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house2", 0, 0, 0, 0.5F));
-		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("house1", 0, 0, 0, 0.5F));
-		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("house2", 0, 0, 0, 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("roadZ", 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("roadZ", 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house1", 0, 0, 4, 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("house2", 0, 0, 4, 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("house1", 0, 0, 4, 0.5F));
+		roadZ.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("house2", 0, 0, 4, 0.5F));
 		addComponent(roadZ);
 		
 		StructureComponent roadX = new StructureComponent("roadX");
@@ -48,10 +50,17 @@ public class StructureTestTown extends Structure {
 		for(int i = 0; i < 30; i++) {
 			roadX.blockIDs[i] = Block.dirt.blockID;
 		}
+		roadX.addAdjacentComponent(ForgeDirection.EAST, new StructureAdjacentComponent("roadX", 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.WEST, new StructureAdjacentComponent("roadX", 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("house1", 4, 0, 0, 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.NORTH, new StructureAdjacentComponent("house2", 4, 0, 0, 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("house1", 4, 0, 0, 0.5F));
+		roadX.addAdjacentComponent(ForgeDirection.SOUTH, new StructureAdjacentComponent("house2", 4, 0, 0, 0.5F));
 		addComponent(roadX);
 		
 		StructureComponent house1 = new StructureComponent("house1");
 		house1.setSize(5, 6, 5);
+		house1.setMinMaxOccurrences(3, 5);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {
@@ -64,7 +73,8 @@ public class StructureTestTown extends Structure {
 		addComponent(house1);
 		
 		StructureComponent house2 = new StructureComponent("house2");
-		house1.setSize(5, 6, 5);
+		house2.setSize(5, 6, 5);
+		house2.setMinMaxOccurrences(3, 5);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {
@@ -75,5 +85,6 @@ public class StructureTestTown extends Structure {
 				}
 			}
 		}
+		addComponent(house2);
 	}
 }

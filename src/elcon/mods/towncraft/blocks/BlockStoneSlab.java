@@ -64,7 +64,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	public int getBlockRotation(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
-		boolean isFull = ((meta & 8) / 8) == 1;
+		boolean isFull = (meta & 8) != 0;
 		if(position == 2 || position == 3) {
 			return 1;
 		} else if(position == 4 || position == 5) {
@@ -97,7 +97,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = getMetadata(blockAccess, x, y, z);
 		int position = meta & 7;
-		boolean isFull = ((meta & 8) / 8) == 1;
+		boolean isFull = (meta & 8) != 0;
 		if(isFull) {
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			return;
@@ -152,7 +152,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	
 	@Override
 	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
-		return (getMetadata(world, x, y, z) & 8) == 1 || (getMetadata(world, x, y, z) & 7) == ForgeDirection.OPPOSITES[side.ordinal()];
+		return (getMetadata(world, x, y, z) & 8) != 0 || (getMetadata(world, x, y, z) & 7) == ForgeDirection.OPPOSITES[side.ordinal()];
 	}
 	
 	@Override
@@ -171,7 +171,7 @@ public class BlockStoneSlab extends BlockExtendedMetadataOverlay implements IBlo
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
 		int position = meta & 7;
-		boolean isFull = ((meta & 8) / 8) == 1;
+		boolean isFull = (meta & 8) != 0;
 		int color = (meta & 240) / 16;
 		int pattern = (meta & 1792) / 256;
 		Icon iconTop;

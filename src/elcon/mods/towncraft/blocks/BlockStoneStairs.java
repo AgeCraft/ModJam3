@@ -8,8 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -25,7 +27,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	public int rayTracePart;
 
 	private Icon stoneBrickSmoothSide;
-	
+
 	public BlockStoneStairs(int id, int stoneType) {
 		super(id, Material.rock);
 		this.stoneType = stoneType;
@@ -67,14 +69,35 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 		}
 	}
 
+	public void setLowerBoundingBox(World world, int x, int y, int z) {
+		if(getMetadata(world, x, y, z) != 0) {
+			setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+		} else {
+			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+		}
+	}
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+		setLowerBoundingBox(world, x, y, z);
+		super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
+		boolean flag = func_82542_g(world, x, y, z);
+		super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
+
+		if(flag && func_82544_h(world, x, y, z)) {
+			super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
+		}
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
 	@Override
 	public int getDroppedMetadata(World world, int x, int y, int z, int meta, int fortune) {
 		return meta & 1016;
 	}
-	
+
 	@Override
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
-		int rotation = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int rotation = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int isUpsideDown = yy >= 0.5D ? 4 : 0;
 		switch(rotation) {
 		case 0:
@@ -88,6 +111,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			return stack.getItemDamage() | isUpsideDown;
 		}
 	}
+
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		onNeighborBlockChange(world, x, y, z, 0);
@@ -107,12 +131,12 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	public int getRenderType() {
 		return TCConfig.BLOCK_STAIRS_RENDER_ID;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int meta) {
 		int direction = meta & 3;
-		boolean isUpsideDown = ((meta & 4) / 4) == 1;
+		boolean isUpsideDown = (meta & 4) != 0;
 		int color = (meta & 120) / 8;
 		int pattern = (meta & 896) / 128;
 		Icon iconTop;
@@ -139,13 +163,10 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			iconSide = TownCraft.stoneBrickPillar.getIcon(2, color * 4);
 			break;
 		}
-		/*if(direction == 0 || direction == 1) {
-			return side == 0 || side == 1 ? iconTop : iconSide;
-		} else if(direction == 2 || direction == 3) {
-			return side == 2 || side == 3 ? iconTop : iconSide;
-		} else if(direction == 4 || direction == 5) {
-			return side == 4 || side == 5 ? iconTop : iconSide;
-		}*/
+		/*
+		 * if(direction == 0 || direction == 1) { return side == 0 || side == 1 ? iconTop : iconSide; } else if(direction == 2 || direction == 3) { return side == 2 || side == 3 ? iconTop : iconSide;
+		 * } else if(direction == 4 || direction == 5) { return side == 4 || side == 5 ? iconTop : iconSide; }
+		 */
 		if(side == 0 || side == 1) {
 			return iconTop;
 		}
@@ -168,13 +189,13 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			return ((BlockOverlay) TownCraft.stoneBrick).getBlockOverlayTexture(side, pattern);
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		stoneBrickSmoothSide = iconRegister.registerIcon("towncraft:stoneBrickSmoothSlab");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int id, CreativeTabs creativeTab, List list) {

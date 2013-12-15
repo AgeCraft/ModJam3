@@ -86,11 +86,11 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	}
 
 	private boolean isBlockStairsDirection(IBlockAccess blockAccess, int x, int y, int z, int meta) {
-		return isBlockStairsID(blockAccess.getBlockId(x, y, z)) && getMetadata(blockAccess, x, y, z) == meta;
+		return isBlockStairsID(blockAccess.getBlockId(x, y, z)) && (getMetadata(blockAccess, x, y, z) & 7) == (meta & 7);
 	}
 
 	public boolean setBoundingBox1(IBlockAccess blockAccess, int x, int y, int z) {
-		int meta = getMetadata(blockAccess, x, y, z);
+		int meta = getMetadata(blockAccess, x, y, z) & 7;
 		int direction = meta & 3;
 		float minX = 0.0F;
 		float minY = 0.5F;
@@ -109,7 +109,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			minX = 0.5F;
 			maxZ = 1.0F;
 			if(isBlockStairsID(blockAccess.getBlockId(x + 1, y, z))) {
-				otherMeta = getMetadata(blockAccess, x + 1, y, z);
+				otherMeta = getMetadata(blockAccess, x + 1, y, z) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
@@ -125,7 +125,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			maxX = 0.5F;
 			maxZ = 1.0F;
 			if(isBlockStairsID(blockAccess.getBlockId(x - 1, y, z))) {
-				otherMeta = getMetadata(blockAccess, x - 1, y, z);
+				otherMeta = getMetadata(blockAccess, x - 1, y, z) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z + 1, meta)) {
@@ -141,7 +141,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			minZ = 0.5F;
 			maxZ = 1.0F;
 			if(isBlockStairsID(blockAccess.getBlockId(x, y, z + 1))) {
-				otherMeta = getMetadata(blockAccess, x, y, z + 1);
+				otherMeta = getMetadata(blockAccess, x, y, z + 1) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
@@ -155,7 +155,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			}
 		} else if(direction == 3) {
 			if(isBlockStairsID(blockAccess.getBlockId(x, y, z - 1))) {
-				otherMeta = getMetadata(blockAccess, x, y, z - 1);
+				otherMeta = getMetadata(blockAccess, x, y, z - 1) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x + 1, y, z, meta)) {
@@ -173,7 +173,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	}
 
 	public boolean setBoundingBox2(IBlockAccess blockAccess, int x, int y, int z) {
-		int meta = blockAccess.getBlockMetadata(x, y, z);
+		int meta = blockAccess.getBlockMetadata(x, y, z) & 7;
 		int direction = meta & 3;
 		float minX = 0.0F;
 		float minY = 0.5F;
@@ -190,7 +190,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 		int otherDirection;
 		if(direction == 0) {
 			if(isBlockStairsID(blockAccess.getBlockId(x - 1, y, z))) {
-				otherMeta = getMetadata(blockAccess, x - 1, y, z);
+				otherMeta = getMetadata(blockAccess, x - 1, y, z) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 3 && !isBlockStairsDirection(blockAccess, x, y, z - 1, meta)) {
@@ -206,7 +206,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			}
 		} else if(direction == 1) {
 			if(isBlockStairsID(blockAccess.getBlockId(x + 1, y, z))) {
-				otherMeta = getMetadata(blockAccess, x + 1, y, z);
+				otherMeta = getMetadata(blockAccess, x + 1, y, z) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					minX = 0.5F;
 					maxX = 1.0F;
@@ -224,7 +224,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			}
 		} else if(direction == 2) {
 			if(isBlockStairsID(blockAccess.getBlockId(x, y, z - 1))) {
-				otherMeta = getMetadata(blockAccess, x, y, z - 1);
+				otherMeta = getMetadata(blockAccess, x, y, z - 1) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					minZ = 0.0F;
 					maxZ = 0.5F;
@@ -240,7 +240,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 			}
 		} else if(direction == 3) {
 			if(isBlockStairsID(blockAccess.getBlockId(x, y, z + 1))) {
-				otherMeta = getMetadata(blockAccess, x, y, z + 1);
+				otherMeta = getMetadata(blockAccess, x, y, z + 1) & 7;
 				if((meta & 4) == (otherMeta & 4)) {
 					otherDirection = otherMeta & 3;
 					if(otherDirection == 1 && !isBlockStairsDirection(blockAccess, x - 1, y, z, meta)) {
@@ -274,7 +274,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	@Override
 	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 vec1, Vec3 vec2) {
 		MovingObjectPosition[] mopArray = new MovingObjectPosition[8];
-		int meta = getMetadata(world, x, y, z);
+		int meta = getMetadata(world, x, y, z) & 7;
 		int direction = meta & 3;
 		boolean isUpsideDown = (meta & 4) != 0;
 		int[] currentRayTraceParts = rayTraceParts[direction + (isUpsideDown ? 4 : 0)];
@@ -326,8 +326,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	@Override
 	public int getPlacedMetadata(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side, float xx, float yy, float zz) {
 		int rotation = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		//int isUpsideDown = yy >= 0.5D ? 4 : 0;
-		int isUpsideDown = 0;
+		int isUpsideDown = yy > 0.5D ? 4 : 0;
 		switch(rotation) {
 		case 0:
 			return stack.getItemDamage() | isUpsideDown | 2;
@@ -370,7 +369,7 @@ public class BlockStoneStairs extends BlockExtendedMetadataOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return BlockStone.colors[(getMetadata(blockAccess, x, y, z) & 240) / 16];
+		return BlockStone.colors[(getMetadata(blockAccess, x, y, z) & 120) / 8];
 	}
 
 	@Override

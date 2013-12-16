@@ -29,6 +29,8 @@ public class TCConfig {
 	public static int blockStoneBrickPillarSlabID = 4064;
 	public static int blockStoneBrickPillarStairsID = 4065;
 	
+	public static boolean enableTestTownSpawn = false;
+	
 	public TCConfig(Configuration config) {
 		this.config = config;
 	}
@@ -55,6 +57,8 @@ public class TCConfig {
 		blockStoneBrickPillarID = config.getBlock("blockStoneBrickPillarID", blockStoneBrickPillarID).getInt();
 		blockStoneBrickPillarSlabID = config.getBlock("blockStoneBrickPillarSlabID", blockStoneBrickPillarSlabID).getInt();
 		blockStoneBrickPillarStairsID = config.getBlock("blockStoneBrickPillarStairsID", blockStoneBrickPillarStairsID).getInt();
+		
+		enableTestTownSpawn = config.get("enableTestTownSpawn", "test", enableTestTownSpawn, "We couldn't finish the mod in time, so decided to release a version with Colored Stone and Vertical Slabs. You can still see how far we got with Towns by enabeling this option, creating a new world and goto (0,64,0).").getBoolean(enableTestTownSpawn);
 	}
 	
 	public void save() {

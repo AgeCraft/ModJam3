@@ -22,7 +22,7 @@ public class TCWorldGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.dimensionId == 0 && chunkX == 0 && chunkZ == 0) {
+		if(TCConfig.enableTestTownSpawn && world.provider.dimensionId == 0 && chunkX == 0 && chunkZ == 0) {
 			structure = new StructureTestTown("testTown");
 			structureGenerator = new StructureGenerator(world, chunkX * 16, 64, chunkZ * 16, structure);
 			structureInstance = structureGenerator.structureInstance;

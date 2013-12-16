@@ -9,7 +9,7 @@ public class StructureTestTown extends Structure {
 		super(name);
 		setMinSize(96, 96, 96);
 		setMaxSize(96, 96, 96);
-		setMinMaxComponents(200, 300);
+		setMinMaxComponents(500, 500);
 		startComponent = "townHall";
 		
 		StructureComponent townHall = new StructureComponent("townHall");
@@ -32,7 +32,7 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent roadZ = new StructureComponent("roadZ");
 		roadZ.setSize(3, 1, 10);
-		roadZ.setMinMaxOccurrences(100, 100);
+		roadZ.setMinMaxOccurrences(200, 200);
 		for(int i = 0; i < 30; i++) {
 			roadZ.blockIDs[i] = Block.dirt.blockID;
 		}
@@ -64,7 +64,7 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent house1 = new StructureComponent("house1");
 		house1.setSize(5, 6, 5);
-		house1.setMinMaxOccurrences(50, 50);
+		house1.setMinMaxOccurrences(200, 200);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {
@@ -78,7 +78,7 @@ public class StructureTestTown extends Structure {
 		
 		StructureComponent house2 = new StructureComponent("house2");
 		house2.setSize(5, 6, 5);
-		house2.setMinMaxOccurrences(50, 50);
+		house2.setMinMaxOccurrences(100, 100);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 6; j++) {
 				for(int k = 0; k < 5; k++) {

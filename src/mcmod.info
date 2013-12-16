@@ -2,8 +2,8 @@
 {
   "modid": "TownCraft",
   "name": "TownCraft",
-  "description": "TownCraft adds medieval towns to Minecraft. (Made for ModJam3)",
-  "version": "@VERSION@",
+  "description": "TownCraft adds medieval towns to Minecraft. (Made for ModJam3) | TownCraftWithoutTownsButWithColoredStoneAndVerticalSlabs (TCWTBWCSAVS) is the final name, because we couldn't finish town in time. :(",
+  "version": "0.5.0",
   "url": "https://github.com/AgeCraft/ModJam3",
   "updateUrl": "",
   "authorList": [
